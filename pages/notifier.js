@@ -23,7 +23,7 @@ export default function Home(props) {
 
   const { formatMessage } = useIntl()
   const f = id => formatMessage({ id })
-
+  console.log('router.parsedUrl:',router.parsedUrl)
   return (
     <div className={styles.container}>
       <Head>

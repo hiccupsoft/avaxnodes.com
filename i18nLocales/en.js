@@ -2,6 +2,8 @@ module.exports = {
 
   "header.pages.nodes.title": "Nodes",
   "header.pages.notifier.title": "Notifier",
+  "header.pages.c-chain.title": "C-Chain",
+
 
   "stats.total.nodes.title": "Total nodes",
   "stats.total.providers.title": "Total providers",

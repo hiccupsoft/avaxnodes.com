@@ -17,7 +17,6 @@ const sortingMap = {
 
 export default async (parent, args, context, info) => {
   await dbConnect()
-
   try {
     // const validators = await getPreparedValidators()
 

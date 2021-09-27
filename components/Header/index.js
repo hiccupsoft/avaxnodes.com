@@ -11,6 +11,7 @@ import Routes, { Link } from '../../routes'
 import pickParams from '../../utils/pickParams'
 
 export const Header = ({ children, currentLocale, currentRoute, route, ...rest }) => {
+  console.log('currentRoute:',currentRoute)
   const { formatMessage } = useIntl()
   const f = id => formatMessage({ id })
   const defaultRouter = useRouter()
@@ -53,6 +54,13 @@ export const Header = ({ children, currentLocale, currentRoute, route, ...rest }
               <Link href={`notifier`} locale={locale} params={{  }}>
                 <a className="nav-link">
                   {f('header.pages.notifier.title')}
+                </a>
+              </Link>
+            </li>  
+            <li className={`nav-item ${currentRoute === 'c-chain' ? 'active' : ''}`}>
+              <Link href={`c-chain`} locale={locale} params={{  }}>
+                <a className="nav-link">
+                  {f('header.pages.c-chain.title')}
                 </a>
               </Link>
             </li>

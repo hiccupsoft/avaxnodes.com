@@ -64,6 +64,10 @@ export const typeDefs = gql`
     total: Int
   }
 
+  type Transaction {
+    transactionID: String,
+  }
+
   input NodesFilter {
     filter: String
     freeSpace: Int
@@ -71,6 +75,11 @@ export const typeDefs = gql`
     page: Int
     perPage: Int
     sorting: String
+  }
+
+  input TransactionsFilter {
+    page:Int
+    perPage:Int
   }
 
   input NodeFilter {
@@ -91,9 +100,15 @@ export const typeDefs = gql`
     pagination: Pagination
   }
 
+  type TransactionsResponse {
+    items: [Transaction]
+    pagination: Pagination
+  }
+
   type Query {
     stats: Stats!
     notifierStats: NotifierStats!
     nodes(filter: NodesFilter!): NodesResponse!
     node(filter: NodeFilter!): Node!
+    transactions(filter:TransactionsFilter!):TransactionsResponse!
   }`
