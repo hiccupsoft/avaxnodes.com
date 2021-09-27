@@ -88,6 +88,9 @@ module.exports = {
   "common.left.days": "days left",
   "common.left.hours": "hours left",
   "common.left.minutes": "minutes left",
+  "common.age.days": "days",
+  "common.age.hours": "hours",
+  "common.age.minutes": "minutes",
 
   "common.copied.to.clipboard": "Copied to clipboard",
 

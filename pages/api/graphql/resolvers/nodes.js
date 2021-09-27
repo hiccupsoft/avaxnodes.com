@@ -21,7 +21,6 @@ export default async (parent, args, context, info) => {
   await dbConnect()
   try {
     const page = Math.abs(args.filter.page) || defaultRouteParams.common.page
-    console.log('page:',page)
     const perPage = Math.min(Math.max(Math.abs(args.filter.perPage), 1), 100) || defaultRouteParams.common.perPage
 
     // const preparedValidators = await getPreparedValidators()

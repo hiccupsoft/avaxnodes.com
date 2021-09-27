@@ -11,7 +11,6 @@ import Routes, { Link } from '../../routes'
 import pickParams from '../../utils/pickParams'
 
 export const Header = ({ children, currentLocale, currentRoute, route, ...rest }) => {
-  console.log('currentRoute:',currentRoute)
   const { formatMessage } = useIntl()
   const f = id => formatMessage({ id })
   const defaultRouter = useRouter()

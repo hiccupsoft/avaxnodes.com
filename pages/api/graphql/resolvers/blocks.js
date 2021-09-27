@@ -1,5 +1,5 @@
 import { defaultRouteParams } from '../../../../constants'
-import Transaction from '../../../../models/transaction'
+import Block from '../../../../models/block'
 import dbConnect from '../../../../lib/dbConnect'
 
 export default async (parent, args, context, info) => {
@@ -7,10 +7,10 @@ export default async (parent, args, context, info) => {
     try {
         const page = Math.abs(args.filter.page) || defaultRouteParams.common.page
         const perPage = Math.min(Math.max(Math.abs(args.filter.perPage), 1), 100) || defaultRouteParams.common.perPage
-        const count = await Transaction
+        const count = await Block
             .countDocuments()
             .exec()
-        const items = await Transaction
+        const items = await Block
             .find()
             .skip((page - 1) * perPage)
             .limit(perPage)

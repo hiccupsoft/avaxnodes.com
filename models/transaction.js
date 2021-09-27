@@ -1,18 +1,13 @@
 const mongoose = require('mongoose');
 const transactionSchema = new mongoose.Schema({
     _id: String,
-    chainID: String,
-    epoch: Number,
-    genesis: Boolean,
-    //   inputs:
-    rewarded: Boolean,
-    txBlockId: String,
-    txFee: Number,
-    type: String,
-    validatorEnd: Number,
-    validatorNodeID: String,
-    validatorStart: Number,
-    vertexId: String,
+    transactionID:String,
+    from: String,
+    to:String,
+    age:Number,
+    avax_amount:Number,
+    status:String,
+    createdAt:Date,
 },
     {
         _id: false,

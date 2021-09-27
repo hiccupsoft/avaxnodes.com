@@ -64,8 +64,36 @@ export const typeDefs = gql`
     total: Int
   }
 
+  scalar Date
+
   type Transaction {
-    transactionID: String,
+    transactionID:String,
+    from: String,
+    to:String,
+    age:Float,
+    avax_amount:Float,
+    status:String,
+    createdAt:Date
+  }
+  
+  type Block {
+    blockID: String,
+    height: Float,
+    age: Float,
+    createdAt: Date,
+    gasUsed: String,
+    transactions: Float,
+    total_burned: Float,
+    volume: Float,
+    size: Float
+  }
+  
+  type Token {
+    name:String,
+    tokenID: String,
+    createdAt: Date,
+    supply_amount:Float,
+    supply_unit:String
   }
 
   input NodesFilter {
@@ -74,10 +102,20 @@ export const typeDefs = gql`
     maxYield: Float
     page: Int
     perPage: Int
-    sorting: String
+    sorting: String,
   }
 
   input TransactionsFilter {
+    page:Int
+    perPage:Int
+  }
+  
+  input BlocksFilter {
+    page:Int
+    perPage:Int
+  }
+  
+  input TokensFilter {
     page:Int
     perPage:Int
   }
@@ -104,6 +142,16 @@ export const typeDefs = gql`
     items: [Transaction]
     pagination: Pagination
   }
+  
+  type BlocksResponse {
+    items: [Block]
+    pagination: Pagination
+  }
+  
+  type TokensResponse {
+    items: [Token]
+    pagination: Pagination
+  }
 
   type Query {
     stats: Stats!
@@ -111,4 +159,6 @@ export const typeDefs = gql`
     nodes(filter: NodesFilter!): NodesResponse!
     node(filter: NodeFilter!): Node!
     transactions(filter:TransactionsFilter!):TransactionsResponse!
+    blocks(filter:BlocksFilter!):BlocksResponse!
+    tokens(filter:TokensFilter!):TokensResponse!
   }`
