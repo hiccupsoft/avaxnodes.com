@@ -327,6 +327,8 @@ export const CChain = ({ currentLocale, router }) => {
         )
     }
     const renderActiveTab = () => {
+        setPage(1);
+        setPerPage(3);
         switch (activeTab) {
             case 'transactions':
                 return transactionsTable();
