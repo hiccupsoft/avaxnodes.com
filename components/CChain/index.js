@@ -340,6 +340,8 @@ export const CChain = ({ currentLocale, router }) => {
     }
     const handleSetActiveTab = (event, item) => {
         event.preventDefault()
+        setPerPage(3);
+        setPage(1);
         setActiveTab(item)
     }
     return (
