@@ -2096,6 +2096,7 @@ div.dataTables_wrapper div.dataTables_paginate ul.pagination .page-item.active .
 .tab_Wrapper .nav-tabs .nav-link:focus,
 .tab_Wrapper .nav-tabs .nav-link:hover {
   border-color: transparent;
+  cursor: pointer;
 }
 table.dataTable.transactions tbody tr td:first-child {
   color: #484848 !important;

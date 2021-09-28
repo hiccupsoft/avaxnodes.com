@@ -45,7 +45,7 @@ export default function Home(props) {
       </Head>
 
       <Layout {...props} currentLocale={currentLocale} currentRoute={currentRoute} router={router}>
-        <CChain router={router}/>
+        <CChain router={router} currentLocale={currentLocale} currentRoute={currentRoute}/>
       </Layout>
     </div>
   )

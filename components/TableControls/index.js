@@ -51,7 +51,7 @@ const TableControls = ({
                   route,
                   {
                     ...pickParams(router.params || {}),
-                    page: undefined,
+                    page,
                     perPage: parseInt(event.target.value, 10) || defaultRouteParams.common.perPage,
                   },
                   locale
@@ -61,6 +61,7 @@ const TableControls = ({
               }}
               value={perPage}
             >
+              <option value="3">3</option>
               <option value="10">10</option>
               <option value="25">25</option>
               <option value="50">50</option>
@@ -158,6 +159,7 @@ const TableControls = ({
               onChange={(event) => setPage(parseInt(event.target.value, 10))}
               value={page}
             >
+              <option value="3">3</option>
               <option value="10">10</option>
               <option value="20">20</option>
               <option value="30">30</option>

@@ -46,7 +46,6 @@ module.exports = routes({ locale: defaultLocale, hideDefaultLocale: true })
   // .add('zh-c-chain', '/:locale(zh)/c-chain', 'c-chain')
   .add('c-chain', 'en', '/c-chain', 'c-chain')
   .add('c-chain', 'nl', '/c-chain', 'c-chain')
-
   .add('notifier', 'en', '/notifier', 'notifier')
   .add('notifier', 'nl', '/notifier', 'notifier')
   // .add('notifier', 'ja', '/notifier', 'notifier')

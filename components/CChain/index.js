@@ -72,18 +72,18 @@ export const GET_TOKENS = gql`
 export const CChain = ({ currentLocale, router }) => {
     const { formatMessage } = useIntl()
     const f = (id, values = {}) => formatMessage({ id }, values)
-    const [page, setPage] = React.useState(+router.params.page || defaultRouteParams.common.page);
-    const [perPage, setPerPage] = React.useState(+router.params.perPage || defaultRouteParams.common.perPage);
+    const [page, setPage] = React.useState(1);
+    const [perPage, setPerPage] = React.useState(3);
     const [activeTab, setActiveTab] = React.useState('transactions')
     const locale = currentLocale
-    React.useEffect(() => {
-        if (!router.params.page || router.params.page === 'undefined') {
-            setPage(defaultRouteParams.common.page)
-        }
-        if (!router.params.perPage || router.params.perPage === 'undefined') {
-            setPerPage(defaultRouteParams.common.perPage)
-        }
-    }, [router.params])
+    // React.useEffect(() => {
+    //     if (!router.params.page || router.params.page === 'undefined') {
+    //       setPage(defaultRouteParams.common.page)
+    //     }
+    //     if (!router.params.perPage || router.params.perPage === 'undefined') {
+    //       setPerPage(defaultRouteParams.common.perPage)
+    //     }
+    //   }, [router.params])
     const { loading, error, data: transactionData } = useQuery(GET_TRANSACTIONS, {
         variables: {
             filter: {
@@ -113,29 +113,32 @@ export const CChain = ({ currentLocale, router }) => {
         const hoursLeft = moment(item.age * 1000).diff(moment(), 'hours')
         const minutesLeft = moment(item.age * 1000).diff(moment(), 'minutes')
         return (
-            <tr role="row" className="odd">
+            <tr href="transaction-detail.html">
                 <td>{shortNodeId(item.transactionID)}</td>
                 <td>
-                    <span id="code1" className="spancode">{shortNodeId(item.from)}</span>
-                    <img data-clipboard-action="copy" data-clipboard-target="#code1" src="/static/images/pdficon.svg" className="pdf-image" />
+                    <span id="code2" className="spancode">{shortNodeId(item.from)}</span>
+                    <img
+                        data-clipboard-action="copy" data-clipboard-target="#code2"
+                        src="/static/images/pdficon.svg" className="pdf-image" />
                 </td>
                 <td>
-                    <div className="innercode">From: <span id="codefrom1">{shortNodeId(item.from)}</span>
-                        <img data-clipboard-action="copy" data-clipboard-target="#codefrom1" src="/static/images/pdficon.svg" className="pdf-image" />
+                    <div className="innercode">From: <span id="codefrom2">{shortNodeId(item.from)}</span> <img
+                        data-clipboard-action="copy" data-clipboard-target="#codefrom2"
+                        src="/static/images/pdficon.svg" className="pdf-image" />
                     </div>
-                    <div className="innercode">To: <span id="codeto1">{shortNodeId(item.to)}</span>
-                        <img data-clipboard-action="copy" data-clipboard-target="#codeto1" src="/static/images/pdficon.svg" className="pdf-image" />
+                    <div className="innercode">To: <span id="codeto2">{shortNodeId(item.to)}</span> <img
+                        data-clipboard-action="copy" data-clipboard-target="#codeto2"
+                        src="/static/images/pdficon.svg" className="pdf-image" />
                     </div>
                 </td>
                 <td>
-                    <div className="timestamp">
-                        {!!daysLeft && (<span>{daysLeft} {f('common.age.days')}</span>)}
+                    <div className="timestamp">{!!daysLeft && (<span>{daysLeft} {f('common.age.days')}</span>)}
                         {!daysLeft && !!hoursLeft && (<span>{hoursLeft} {f('common.age.hours')}</span>)}
                         {!daysLeft && !hoursLeft && !!minutesLeft && (<span>{minutesLeft} {f('common.age.minutes')}</span>)}</div>
                     <div className="timestamp">{moment(item.createdAt).format("ddd, MMM Do YYYY, h:mm:ss a")}</div>
                 </td>
                 <td>{item.avax_amount} AVAX</td>
-                <td><i className="fas fa-circle" aria-hidden="true" /></td>
+                <td><i className="fas fa-circle"></i></td>
             </tr>
         )
     }
@@ -177,7 +180,7 @@ export const CChain = ({ currentLocale, router }) => {
         return (
             <div className="tab-pane fade active show" id="transactions" role="tabpanel" aria-labelledby="nav-home-tab">
                 <h2>C-Chain Transactions</h2>
-                <div id="datatable_wrapper" className="dataTables_wrapper no-footer">
+                <div id="datatable_wrapper" className="dataTables_wrapper">
                     <TableControls
                         locale={locale}
                         page={page}
@@ -186,68 +189,31 @@ export const CChain = ({ currentLocale, router }) => {
                         setPerPage={setPerPage}
                         pagination={transactionData && transactionData.transactions && transactionData.transactions.pagination}
                     />
-                    <div className="row">
-                        <div className="col-sm-12">
-                            <div className="dataTables_scroll">
-                                <div className="dataTables_scrollHead" style={{ overflow: 'hidden', position: 'relative', border: '0px', width: '100%' }}>
-                                    <div className="dataTables_scrollHeadInner" style={{ boxSizing: 'content-box', width: '1224px', paddingRight: '0px' }}>
-                                        <table className="display responsive nowrap transactions dataTable no-footer" style={{ width: '1224px', marginLeft: '0px' }} role="grid">
-                                            <thead>
-                                                <tr role="row">
-                                                    <th className="sorting_disabled" rowSpan={1} colSpan={1} style={{ width: '137px' }}>
-                                                        HASH</th>
-                                                    <th className="sorting_disabled" rowSpan={1} colSpan={1} style={{ width: '226px' }}>
-                                                    </th>
-                                                    <th className="sorting_disabled" rowSpan={1} colSpan={1} style={{ width: '281px' }}>
-                                                    </th>
-                                                    <th className="sorting_disabled" rowSpan={1} colSpan={1} style={{ width: '313px' }}>BLOCK AGE</th>
-                                                    <th className="sorting_disabled" rowSpan={1} colSpan={1} style={{ width: '110px' }}>AMOUNT</th>
-                                                    <th className="sorting_disabled" rowSpan={1} colSpan={1} style={{ width: '37px' }} />
-                                                </tr>
-                                            </thead>
-                                        </table>
-                                    </div>
-                                </div>
-                                <div className="dataTables_scrollBody" style={{ position: 'relative', overflow: 'auto', width: '100%' }}>
-                                    <table id="datatable" className="display responsive nowrap transactions dataTable no-footer" style={{ width: '100%' }} role="grid" aria-describedby="datatable_info">
-                                        <thead>
-                                            <tr role="row" style={{ height: '0px' }}>
-                                                <th className="sorting_disabled" rowSpan={1} colSpan={1} style={{ width: '137px', paddingTop: '0px', paddingBottom: '0px', borderTopWidth: '0px', borderBottomWidth: '0px', height: '0px' }}>
-                                                    <div className="dataTables_sizing" style={{ height: '0px', overflow: 'hidden' }}>HASH</div>
-                                                </th>
-                                                <th className="sorting_disabled" rowSpan={1} colSpan={1} style={{ width: '226px', paddingTop: '0px', paddingBottom: '0px', borderTopWidth: '0px', borderBottomWidth: '0px', height: '0px' }}>
-                                                    <div className="dataTables_sizing" style={{ height: '0px', overflow: 'hidden' }}> </div>
-                                                </th>
-                                                <th className="sorting_disabled" rowSpan={1} colSpan={1} style={{ width: '281px', paddingTop: '0px', paddingBottom: '0px', borderTopWidth: '0px', borderBottomWidth: '0px', height: '0px' }}>
-                                                    <div className="dataTables_sizing" style={{ height: '0px', overflow: 'hidden' }}> </div>
-                                                </th>
-                                                <th className="sorting_disabled" rowSpan={1} colSpan={1} style={{ width: '313px', paddingTop: '0px', paddingBottom: '0px', borderTopWidth: '0px', borderBottomWidth: '0px', height: '0px' }}>
-                                                    <div className="dataTables_sizing" style={{ height: '0px', overflow: 'hidden' }}>BLOCK AGE</div>
-                                                </th>
-                                                <th className="sorting_disabled" rowSpan={1} colSpan={1} style={{ width: '110px', paddingTop: '0px', paddingBottom: '0px', borderTopWidth: '0px', borderBottomWidth: '0px', height: '0px' }}>
-                                                    <div className="dataTables_sizing" style={{ height: '0px', overflow: 'hidden' }}>AMOUNT</div></th>
-                                                <th className="sorting_disabled" rowSpan={1} colSpan={1} style={{ width: '37px', paddingTop: '0px', paddingBottom: '0px', borderTopWidth: '0px', borderBottomWidth: '0px', height: '0px' }}>
-                                                    <div className="dataTables_sizing" style={{ height: '0px', overflow: 'hidden' }} /></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {transactionData && transactionData.transactions && transactionData.transactions.items && transactionData.transactions.items.map((item, index) => {
-                                                return (
-                                                    <TransactionTableItem
-                                                        key={`${item.transactionID}-${index}`}
-                                                        item={item}
-                                                        index={index}
-                                                        locale={locale}
-                                                        f={f}
-                                                    />
-                                                )
-                                            })}
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <table id="datatable" className="display responsive nowrap transactions dataTable" style={{ width: '100%' }}>
+                        <thead>
+                            <tr>
+                                <th>HASH</th>
+                                <th> </th>
+                                <th> </th>
+                                <th>BLOCK AGE</th>
+                                <th>AMOUNT</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {transactionData && transactionData.transactions && transactionData.transactions.items && transactionData.transactions.items.map((item, index) => {
+                                return (
+                                    <TransactionTableItem
+                                        key={`${item.transactionID}-${index}`}
+                                        item={item}
+                                        index={index}
+                                        locale={locale}
+                                        f={f}
+                                    />
+                                )
+                            })}
+                        </tbody>
+                    </table>
                     <TableControls
                         locale={locale}
                         page={page}
@@ -264,7 +230,7 @@ export const CChain = ({ currentLocale, router }) => {
         return (
             <div className="tab-pane fade active show" id="blocks" role="tabpanel" aria-labelledby="nav-home-tab">
                 <h2>Blocks</h2>
-                <div id="block_table_wrapper" className="dataTables_wrapper no-footer">
+                <div id="block_table_wrapper" className="dataTables_wrapper dataTables_scroll">
                     <TableControls
                         locale={locale}
                         page={page}
@@ -273,40 +239,33 @@ export const CChain = ({ currentLocale, router }) => {
                         setPerPage={setPerPage}
                         pagination={blockData && blockData.blocks && blockData.blocks.pagination}
                     />
-                    <div className="row">
-                        <div className="col-sm-12">
-                            <div className="dataTables_scroll">
-                                <div className="dataTables_scrollHead" style={{ overflow: 'hidden', position: 'relative', border: '0px', width: '100%' }}><div className="dataTables_scrollHeadInner" style={{ boxSizing: 'content-box', width: '1340px', paddingRight: '0px' }}>
-                                    <table className="display responsive nowrap dataTable no-footer" style={{ width: '1340px', marginLeft: '0px' }} role="grid"><thead>
-                                        <tr role="row">
-                                            <th className="sorting_disabled" rowSpan={1} colSpan={1} style={{ width: '66px' }}>HEIGHT</th><th className="sorting_disabled" rowSpan={1} colSpan={1} style={{ width: '351px' }}>AGE</th>
-                                            <th className="sorting_disabled" rowSpan={1} colSpan={1} style={{ width: '136px' }}>TRANSACTIONS</th><th className="sorting_disabled" rowSpan={1} colSpan={1} style={{ width: '267px' }}>GAS USED</th><th className="sorting_disabled" rowSpan={1} colSpan={1} style={{ width: '181px' }}>TOTAL BURNED</th><th className="sorting_disabled" rowSpan={1} colSpan={1} style={{ width: '98px' }}>VOLUME</th><th className="sorting_disabled" rowSpan={1} colSpan={1} style={{ width: '101px' }}>SIZE</th>
-                                        </tr>
-                                    </thead>
-                                    </table>
-                                </div>
-                                </div>
-                                <div className="dataTables_scrollBody" style={{ position: 'relative', overflow: 'auto', width: '100%' }}><table id="block_table" className="display responsive nowrap dataTable no-footer" style={{ width: '100%' }} role="grid" aria-describedby="block_table_info"><thead>
-                                    <tr role="row" style={{ height: '0px' }}><th className="sorting_disabled" rowSpan={1} colSpan={1} style={{ paddingTop: '0px', paddingBottom: '0px', borderTopWidth: '0px', borderBottomWidth: '0px', height: '0px', width: '66px' }}><div className="dataTables_sizing" style={{ height: '0px', overflow: 'hidden' }}>HEIGHT</div></th><th className="sorting_disabled" rowSpan={1} colSpan={1} style={{ paddingTop: '0px', paddingBottom: '0px', borderTopWidth: '0px', borderBottomWidth: '0px', height: '0px', width: '351px' }}><div className="dataTables_sizing" style={{ height: '0px', overflow: 'hidden' }}>AGE</div></th><th className="sorting_disabled" rowSpan={1} colSpan={1} style={{ paddingTop: '0px', paddingBottom: '0px', borderTopWidth: '0px', borderBottomWidth: '0px', height: '0px', width: '136px' }}><div className="dataTables_sizing" style={{ height: '0px', overflow: 'hidden' }}>TRANSACTIONS</div></th><th className="sorting_disabled" rowSpan={1} colSpan={1} style={{ paddingTop: '0px', paddingBottom: '0px', borderTopWidth: '0px', borderBottomWidth: '0px', height: '0px', width: '267px' }}><div className="dataTables_sizing" style={{ height: '0px', overflow: 'hidden' }}>GAS USED</div></th><th className="sorting_disabled" rowSpan={1} colSpan={1} style={{ paddingTop: '0px', paddingBottom: '0px', borderTopWidth: '0px', borderBottomWidth: '0px', height: '0px', width: '181px' }}><div className="dataTables_sizing" style={{ height: '0px', overflow: 'hidden' }}>TOTAL BURNED</div></th><th className="sorting_disabled" rowSpan={1} colSpan={1} style={{ paddingTop: '0px', paddingBottom: '0px', borderTopWidth: '0px', borderBottomWidth: '0px', height: '0px', width: '98px' }}><div className="dataTables_sizing" style={{ height: '0px', overflow: 'hidden' }}>VOLUME</div></th><th className="sorting_disabled" rowSpan={1} colSpan={1} style={{ paddingTop: '0px', paddingBottom: '0px', borderTopWidth: '0px', borderBottomWidth: '0px', height: '0px', width: '101px' }}><div className="dataTables_sizing" style={{ height: '0px', overflow: 'hidden' }}>SIZE</div></th></tr>
-                                </thead>
-                                    <tbody>
-                                        {blockData && blockData.blocks && blockData.blocks.items && blockData.blocks.items.map((item, index) => {
-                                            return (
-                                                <BlockTableItem
-                                                    key={`${item.blockID}-${index}`}
-                                                    item={item}
-                                                    index={index}
-                                                    locale={locale}
-                                                    f={f}
-                                                />
-                                            )
-                                        })}
-                                    </tbody>
-                                </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <table id="datatable" className="display responsive nowrap transactions dataTable" style={{ width: '100%' }}>
+                        <thead>
+                            <tr>
+                                <th>HEIGHT</th>
+                                <th>AGE</th>
+                                <th>TRANSACTIONS</th>
+                                <th>GAS USED</th>
+                                <th>TOTAL BURNED</th>
+                                <th>VOLUME</th>
+                                <th>SIZE</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            {blockData && blockData.blocks && blockData.blocks.items && blockData.blocks.items.map((item, index) => {
+                                return (
+                                    <BlockTableItem
+                                        key={`${item.blockID}-${index}`}
+                                        item={item}
+                                        index={index}
+                                        locale={locale}
+                                        f={f}
+                                    />
+                                )
+                            })}
+                        </tbody>
+                    </table>
                     <TableControls
                         locale={locale}
                         page={page}
@@ -323,7 +282,7 @@ export const CChain = ({ currentLocale, router }) => {
         return (
             <div className="tab-pane fade active show" id="tokens" role="tabpanel" aria-labelledby="nav-profile-tab">
                 <h2>Tokens</h2>
-                <div id="tokenlist_wrapper" className="dataTables_wrapper no-footer">
+                <div id="datatable_wrapper" className="dataTables_wrapper dataTables_scroll">
                     <TableControls
                         locale={locale}
                         page={page}
@@ -331,11 +290,17 @@ export const CChain = ({ currentLocale, router }) => {
                         perPage={perPage}
                         setPerPage={setPerPage}
                         pagination={transactionData && transactionData.transactions && transactionData.transactions.pagination}
-                    /><div className="row"><div className="col-sm-12"><div className="dataTables_scroll"><div className="dataTables_scrollHead" style={{ overflow: 'hidden', position: 'relative', border: '0px', width: '100%' }}><div className="dataTables_scrollHeadInner" style={{ boxSizing: 'content-box', width: '1340px', paddingRight: '0px' }}><table className="display responsive nowrap transactions dataTable no-footer" style={{ width: '1340px', marginLeft: '0px' }} role="grid"><thead>
-                        <tr role="row"><th className="sorting_disabled" rowSpan={1} colSpan={1} style={{ width: '66px' }} /><th className="sorting_disabled" rowSpan={1} colSpan={1} style={{ width: '126px' }}>NAME</th><th className="sorting_disabled" rowSpan={1} colSpan={1} style={{ width: '578px' }}>CONTRACT ADDRESS</th><th className="sorting_disabled" rowSpan={1} colSpan={1} style={{ width: '265px' }}>CREATED AT</th><th className="sorting_disabled" rowSpan={1} colSpan={1} style={{ width: '205px' }}>TOTAL SUPPLY</th></tr>
-                    </thead></table></div></div><div className="dataTables_scrollBody" style={{ position: 'relative', overflow: 'auto', width: '100%' }}><table id="tokenlist" className="display responsive nowrap transactions dataTable no-footer" style={{ width: '100%' }} role="grid" aria-describedby="tokenlist_info"><thead>
-                        <tr role="row" style={{ height: '0px' }}><th className="sorting_disabled" rowSpan={1} colSpan={1} style={{ paddingTop: '0px', paddingBottom: '0px', borderTopWidth: '0px', borderBottomWidth: '0px', height: '0px', width: '66px' }}><div className="dataTables_sizing" style={{ height: '0px', overflow: 'hidden' }} /></th><th className="sorting_disabled" rowSpan={1} colSpan={1} style={{ paddingTop: '0px', paddingBottom: '0px', borderTopWidth: '0px', borderBottomWidth: '0px', height: '0px', width: '126px' }}><div className="dataTables_sizing" style={{ height: '0px', overflow: 'hidden' }}>NAME</div></th><th className="sorting_disabled" rowSpan={1} colSpan={1} style={{ paddingTop: '0px', paddingBottom: '0px', borderTopWidth: '0px', borderBottomWidth: '0px', height: '0px', width: '578px' }}><div className="dataTables_sizing" style={{ height: '0px', overflow: 'hidden' }}>CONTRACT ADDRESS</div></th><th className="sorting_disabled" rowSpan={1} colSpan={1} style={{ paddingTop: '0px', paddingBottom: '0px', borderTopWidth: '0px', borderBottomWidth: '0px', height: '0px', width: '265px' }}><div className="dataTables_sizing" style={{ height: '0px', overflow: 'hidden' }}>CREATED AT</div></th><th className="sorting_disabled" rowSpan={1} colSpan={1} style={{ paddingTop: '0px', paddingBottom: '0px', borderTopWidth: '0px', borderBottomWidth: '0px', height: '0px', width: '205px' }}><div className="dataTables_sizing" style={{ height: '0px', overflow: 'hidden' }}>TOTAL SUPPLY</div></th></tr>
-                    </thead>
+                    />
+                    <table id="datatable" className="display responsive nowrap transactions dataTable" style={{ width: '100%' }}>
+                        <thead>
+                            <tr>
+                                <th />
+                                <th>NAME</th>
+                                <th>CONTRACT ADDRESS</th>
+                                <th>CREATED AT</th>
+                                <th>TOTAL SUPPLY</th>
+                            </tr>
+                        </thead>
                         <tbody>
                             {tokenData && tokenData.tokens && tokenData.tokens.items && tokenData.tokens.items.map((item, index) => {
                                 return (
@@ -350,10 +315,6 @@ export const CChain = ({ currentLocale, router }) => {
                             })}
                         </tbody>
                     </table>
-                        </div>
-                    </div>
-                    </div>
-                    </div>
                     <TableControls
                         locale={locale}
                         page={page}
