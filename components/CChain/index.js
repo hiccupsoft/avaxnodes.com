@@ -181,7 +181,7 @@ export const CChain = ({ currentLocale, router }) => {
         return (
             <div className="tab-pane fade active show" id="transactions" role="tabpanel" aria-labelledby="nav-home-tab">
                 <h2>C-Chain Transactions</h2>
-                <div id="datatable_wrapper" className="dataTables_wrapper">
+                <div id="datatable_wrapper" className="dataTables_wrapper dataTables_scroll">
                     <TableControls
                         locale={locale}
                         page={page}
