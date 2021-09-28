@@ -77,12 +77,13 @@ export const CChain = ({ currentLocale, router }) => {
     const [activeTab, setActiveTab] = React.useState('transactions')
     const locale = currentLocale
     // React.useEffect(() => {
-    //     if (!router.params.page || router.params.page === 'undefined') {
-    //       setPage(defaultRouteParams.common.page)
-    //     }
-    //     if (!router.params.perPage || router.params.perPage === 'undefined') {
-    //       setPerPage(defaultRouteParams.common.perPage)
-    //     }
+        // if (router.params.page === 'undefined') {
+        // if (!router.params.page || router.params.page === 'undefined') {
+        //   setPage(defaultRouteParams.common.page)
+        // }
+        // if (!router.params.perPage || router.params.perPage === 'undefined') {
+        //   setPerPage(defaultRouteParams.common.perPage)
+        // }
     //   }, [router.params])
     const { loading, error, data: transactionData } = useQuery(GET_TRANSACTIONS, {
         variables: {

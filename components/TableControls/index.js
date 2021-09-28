@@ -34,7 +34,6 @@ const TableControls = ({
     startPage = numberOfPages - maxPagesToShow
   }
   const endPage = Math.min(startPage + maxPagesToShow, numberOfPages)
-
   return (
     <div className="row">
       <div className="col-sm-3">
@@ -108,7 +107,7 @@ const TableControls = ({
                   key={`${index}-${pageNumber}`}
                   href={route}
                   locale={locale}
-                  params={{ ...pickParams(router.params || {}), page: pageNumber === 1 ? undefined : pageNumber }}
+                  params={{ ...pickParams(router.params || {}), page: pageNumber === 1 ? 1 : pageNumber }}
                 >
                   <a
                     className={`paginate_button ${page === pageNumber ? 'current' : ''}`}
