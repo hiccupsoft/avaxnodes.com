@@ -405,11 +405,32 @@ body.mode-light {
 .mode-light .main-content .table-title {
   color: #20202A;
 }
-
+.mode-light .tab_Wrapper .tab-content .tab-pane h2 {
+  color: #000000;
+  font-size: 40px;
+  letter-spacing: -0.17px;
+  line-height: 48px;
+  text-align: left;
+  padding-top: 70px;
+  padding-bottom: 50px;
+  margin-bottom: 0px;
+}
+.mode-light .dataTables_scroll table.dataTable.display tbody td {
+  border-bottom: 10px solid #F5F6FB !important;
+  background-color: #FFFFFF !important;
+  /* border-radius: 4px; */
+  width: 1140px;
+  height: 58px;
+}
 .mode-light .spinner {
   background: rgba(255, 255, 255, 0.5);
 }
-
+.mode-light .white {
+  color: #A6A6AF !important;
+}
+.mode-light .innercode span{
+  color: #A6A6AF !important;
+}
 .mode-light .leaflet-tooltip.map-tooltip {
   background-color: white;
   border: 0px solid #13131A;
