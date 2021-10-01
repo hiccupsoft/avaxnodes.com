@@ -1,12 +1,13 @@
 import React from 'react'
 import { useIntl } from "react-intl"
+import ReactClipboard from 'react-clipboardjs-copy'
 import { gql, useQuery } from '@apollo/client';
 import TableControls from '../TableControls'
 import { Link } from '../../routes'
 import Spinner from '../Spinner'
-import { defaultRouteParams } from '../../constants';
 import shortNodeId from '../../utils/shortNodeId';
 import moment from 'moment'
+import { FaCircle } from "react-icons/fa";
 
 export const GET_TRANSACTIONS = gql`
   query GetTransactions ($filter: TransactionsFilter!){
@@ -75,16 +76,18 @@ export const CChain = ({ currentLocale, router }) => {
     const [page, setPage] = React.useState(1);
     const [perPage, setPerPage] = React.useState(3);
     const [activeTab, setActiveTab] = React.useState('transactions')
+    const [transactionIdCopiedToClipboard, setTransactionIdCopiedToClipboard] = React.useState(false);
     const locale = currentLocale
     // React.useEffect(() => {
-        // if (router.params.page === 'undefined') {
-        // if (!router.params.page || router.params.page === 'undefined') {
-        //   setPage(defaultRouteParams.common.page)
-        // }
-        // if (!router.params.perPage || router.params.perPage === 'undefined') {
-        //   setPerPage(defaultRouteParams.common.perPage)
-        // }
+    // if (router.params.page === 'undefined') {
+    // if (!router.params.page || router.params.page === 'undefined') {
+    //   setPage(defaultRouteParams.common.page)
+    // }
+    // if (!router.params.perPage || router.params.perPage === 'undefined') {
+    //   setPerPage(defaultRouteParams.common.perPage)
+    // }
     //   }, [router.params])
+    
     const { loading, error, data: transactionData } = useQuery(GET_TRANSACTIONS, {
         variables: {
             filter: {
@@ -113,14 +116,36 @@ export const CChain = ({ currentLocale, router }) => {
         const daysLeft = moment(item.age * 1000).diff(moment(), 'days')
         const hoursLeft = moment(item.age * 1000).diff(moment(), 'hours')
         const minutesLeft = moment(item.age * 1000).diff(moment(), 'minutes')
+        React.useEffect(() => {
+            if (transactionIdCopiedToClipboard) {
+                setTimeout(() => {
+                    setTransactionIdCopiedToClipboard(false)
+                }, 1000)
+            }
+        }, [transactionIdCopiedToClipboard])
         return (
             <tr href="transaction-detail.html">
                 <td>{shortNodeId(item.transactionID)}</td>
-                <td>
+                <td style={{ position: 'relative' }} onClick={e => {
+                    if (Array.from(e.target.classList).includes('pdf-image')) {
+                        e.preventDefault()
+                        e.stopPropagation()
+                    }
+                }}>
                     <span id="code2" className="spancode">{shortNodeId(item.from)}</span>
-                    <img
-                        data-clipboard-action="copy" data-clipboard-target="#code2"
-                        src="/static/images/pdficon.svg" className="pdf-image" />
+                    <ReactClipboard
+                        text={item.transactionID}
+                        onSuccess={(e) => {
+                            setTransactionIdCopiedToClipboard(true)
+                        }}
+                    >
+                        <img
+                            data-clipboard-action="copy" data-clipboard-target="#code2"
+                            src="/static/images/pdficon.svg" className="pdf-image" />
+                    </ReactClipboard>
+                    {transactionIdCopiedToClipboard && (
+                        <div className="copiedtext d-block">{f('common.copied.to.clipboard')}</div>
+                    )}
                 </td>
                 <td>
                     <div className="innercode">From: <span id="codefrom1">{shortNodeId(item.from)}</span> <img
@@ -139,7 +164,7 @@ export const CChain = ({ currentLocale, router }) => {
                     <div className="timestamp">{moment(item.createdAt).format("ddd, MMM Do YYYY, h:mm:ss a")}</div>
                 </td>
                 <td>{item.avax_amount} AVAX</td>
-                <td><i className="fas fa-circle" aria-hidden="true"></i></td>
+                <td><FaCircle fill={'#5DA574'} size={10} /></td>
             </tr>
         )
     }
