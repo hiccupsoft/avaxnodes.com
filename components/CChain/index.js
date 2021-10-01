@@ -123,12 +123,12 @@ export const CChain = ({ currentLocale, router }) => {
                         src="/static/images/pdficon.svg" className="pdf-image" />
                 </td>
                 <td>
-                    <div className="innercode">From: <span id="codefrom2">{shortNodeId(item.from)}</span> <img
-                        data-clipboard-action="copy" data-clipboard-target="#codefrom2"
+                    <div className="innercode">From: <span id="codefrom1">{shortNodeId(item.from)}</span> <img
+                        data-clipboard-action="copy" data-clipboard-target="#codefrom1"
                         src="/static/images/pdficon.svg" className="pdf-image" />
                     </div>
-                    <div className="innercode">To: <span id="codeto2">{shortNodeId(item.to)}</span> <img
-                        data-clipboard-action="copy" data-clipboard-target="#codeto2"
+                    <div className="innercode">To: <span id="codeto1">{shortNodeId(item.to)}</span> <img
+                        data-clipboard-action="copy" data-clipboard-target="#codeto1"
                         src="/static/images/pdficon.svg" className="pdf-image" />
                     </div>
                 </td>
@@ -139,7 +139,7 @@ export const CChain = ({ currentLocale, router }) => {
                     <div className="timestamp">{moment(item.createdAt).format("ddd, MMM Do YYYY, h:mm:ss a")}</div>
                 </td>
                 <td>{item.avax_amount} AVAX</td>
-                <td><i className="fas fa-circle"></i></td>
+                <td><i className="fas fa-circle" aria-hidden="true"></i></td>
             </tr>
         )
     }
@@ -240,7 +240,7 @@ export const CChain = ({ currentLocale, router }) => {
                         setPerPage={setPerPage}
                         pagination={blockData && blockData.blocks && blockData.blocks.pagination}
                     />
-                    <table id="datatable" className="display responsive nowrap transactions dataTable" style={{ width: '100%' }}>
+                    <table id="datatable" className="display responsive nowrap dataTable" style={{ width: '100%' }}>
                         <thead>
                             <tr>
                                 <th>HEIGHT</th>
@@ -292,7 +292,7 @@ export const CChain = ({ currentLocale, router }) => {
                         setPerPage={setPerPage}
                         pagination={transactionData && transactionData.transactions && transactionData.transactions.pagination}
                     />
-                    <table id="datatable" className="display responsive nowrap transactions dataTable" style={{ width: '100%' }}>
+                    <table id="datatable" className="display responsive nowrap dataTable" style={{ width: '100%' }}>
                         <thead>
                             <tr>
                                 <th />

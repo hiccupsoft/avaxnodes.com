@@ -46,7 +46,15 @@
     font-size: 16px!important;
   }
 }
-
+.mode-light .dataTables_scroll table.dataTable tbody td img.pdf-image {
+  width: 20px;
+  height: 20px;
+  background-color: #2B2929;
+  border-radius: 2px;
+  padding: 3px 4px;
+  margin-left: 5px;
+  cursor: pointer;
+}
 .freespace-wrap .bootstrap-select {
   width: 100% !important;
 }
@@ -283,7 +291,7 @@ body.mode-light {
 .mode-light #datatable_wrapper table.dataTable tbody td a {
   color: #292932;
 }
-.mode-light #datatable_wrapper table.dataTable tbody td img.pdf-image {
+.mode-light #datatable_wrapper table.transactions.dataTable tbody td img.pdf-image {
   background-color: rgba(0, 0, 0, 0.06);
 }
 .mode-light #datatable_wrapper table.dataTable tbody td {
@@ -294,6 +302,13 @@ body.mode-light {
   border-top: 6px solid #f5f6fb;
   padding: 9px 10px;
 }
+.mode-light table.dataTable tbody td {
+  background: #000;
+  color: #81818C !important;
+}
+.mode-light table.dataTable tbody td  span{
+  color: #81818C !important;
+}
 .dataTables_scroll table.dataTable.display tbody td {
   border-top: none;
   background: #1C1C24;
@@ -301,7 +316,17 @@ body.mode-light {
   letter-spacing: -0.06px;
   padding-top: 21px;
   padding-bottom: 18px;
-  font-weight: 500;
+  font-weight: 400;
+  border-top: 0px;
+}
+.mode-light .dataTables_scroll table.dataTable.display tbody td {
+  border-top: none;
+  background: #1C1C24;
+  border-bottom: 8px solid #13131a;
+  letter-spacing: -0.06px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  font-weight: 400;
   border-top: 0px;
 }
 .dataTables_scroll .dataTables_scrollHead table.dataTable thead > tr > th {
@@ -320,14 +345,30 @@ body.mode-light {
   background-color: #E0E0E0 !important;
   background: none;
 }
+.mode-light table.dataTable.transactions tbody tr td:first-child {
+  color: #484848 !important;
+}
+.mode-light #codefrom1 {
+  color: #020506 !important;
+}
+.mode-light #codeto1 {
+  color: #020506 !important;
+}
+.mode-light table.dataTable tbody tr td:first-child {
+  color: #20202A !important;
+  font-size: 16px !important;
+  letter-spacing: -0.07px !important;
+  line-height: 19px;
+  font-weight: 400;
+}
 .mode-light .dataTables_wrapper .dataTables_paginate .paginate_button.current, .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
   color: #333 !important;
 }
 .mode-light #datatable_wrapper table.dataTable tbody td, #tokenlist_wrapper table.dataTable tbody td {
   font-size: 13px;
   letter-spacing: -0.06px;
-  padding-top: 21px;
-  padding-bottom: 18px;
+  padding-top: 9px;
+  padding-bottom: 9px;
   font-weight: 500;
   border-top: 0px;
 }
