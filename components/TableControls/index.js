@@ -34,7 +34,6 @@ const TableControls = ({
     startPage = numberOfPages - maxPagesToShow
   }
   const endPage = Math.min(startPage + maxPagesToShow, numberOfPages)
-  console.log('route:',route)
   return (
     <div className="row">
       <div className="col-sm-3">
