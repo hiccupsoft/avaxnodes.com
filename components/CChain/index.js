@@ -8,6 +8,8 @@ import Spinner from '../Spinner'
 import shortNodeId from '../../utils/shortNodeId';
 import moment from 'moment'
 import { FaCircle } from "react-icons/fa";
+import pickParams from '../../utils/pickParams';
+
 
 export const GET_TRANSACTIONS = gql`
   query GetTransactions ($filter: TransactionsFilter!){
@@ -97,7 +99,17 @@ const TransactionTableItem = ({ item, f, locale }) => {
         toAddressCopiedToClipboard
     ])
     return (
-        <tr href="transaction-detail.html">
+        <tr onClick={() => {
+            if (!transactionIdCopiedToClipboard && !fromAddressCopiedToClipboard && !toAddressCopiedToClipboard) {
+                Router.pushRoute(
+                    'transaction',
+                    pickParams({
+                        id: item.transactionID,
+                    }),
+                    locale
+                )
+            }
+        }}>
             <td>{shortNodeId(item.transactionID)}</td>
             <td style={{ position: 'relative' }} onClick={e => {
                 if (Array.from(e.target.classList).includes('pdf-image')) {
@@ -175,7 +187,15 @@ const BlockTableItem = ({ item, f, locale }) => {
     const hoursLeft = moment(item.age * 1000).diff(moment(), 'hours')
     const minutesLeft = moment(item.age * 1000).diff(moment(), 'minutes')
     return (
-        <tr href="block-detail.html" role="row" className="odd">
+        <tr onClick={() => {
+            Router.pushRoute(
+                'block',
+                pickParams({
+                    id: item.blockID,
+                }),
+                locale
+            )
+        }} role="row" className="odd">
             <td>{item.height}</td>
             <td>{!!daysLeft && (<span className="white">{daysLeft} {f('common.age.days')}</span>)}
                 {!daysLeft && !!hoursLeft && (<span className="white">{hoursLeft} {f('common.age.hours')}</span>)}
@@ -201,7 +221,17 @@ const TokenTableItem = ({ item, f, locale }) => {
         }
     }, [contactAddressCopiedToClipboard])
     return (
-        <tr href="token-detail.html" role="row" className="odd">
+        <tr onClick={() => {
+            if (!contactAddressCopiedToClipboard) {
+                Router.pushRoute(
+                    'token',
+                    pickParams({
+                        id: item.tokenID,
+                    }),
+                    locale
+                )
+            }
+        }} role="row" className="odd">
             <td>
                 <div className="rect_wrapp">AXP</div>
             </td>
@@ -444,6 +474,7 @@ export const CChain = ({ currentLocale, router }) => {
         setPage(1);
         setActiveTab(item)
     }
+    console.log('local:', locale)
     return (
         <>
             <div className="contact-wrapper">
