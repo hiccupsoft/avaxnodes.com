@@ -358,7 +358,13 @@ table.dataTable tbody td div {
 .mode-light table.dataTable tbody td span {
   color: #81818C !important;
 }
-
+.mode-light .copy-details-wrapper .copy_wrapper {
+  color: #20202A;
+  font-size: 40px;
+  letter-spacing: -0.17px;
+  line-height: 48px;
+  text-align: left;
+}
 .mode-light .block-wrapper-inner .block {
   background-color: #FFFFFF;
   border-radius: 1px;
