@@ -177,7 +177,8 @@ export const Transaction = ({ currentLocale, router }) => {
                         </div>
                         <div className="internal_wrap">
                             <h1>Internal operations</h1>
-                            <table id="datatable_wrapper" className="display responsive nowrap" style={{ width: '100%' }}>
+                            <div className = "datatable_wrapper dataTables_scroll">
+                            <table id="datatable" className="display responsive nowrap dataTable" style={{ width: '100%' }}>
                                 <thead>
                                     <tr>
                                         <th />
@@ -200,13 +201,14 @@ export const Transaction = ({ currentLocale, router }) => {
                                     </tr>
                                 </tbody>
                             </table>
+                            </div>
                         </div>
                         <div className="execution-wrapper">
                             <div className="inner">
                                 <h5>Execution tree <img src="/static/images/pdficon.svg" className="pdf-image" /></h5>
                             </div>
                             <div className="inner">
-                                <img src="asset/images/download.svg" alt="" className="download-image" />
+                                <img src="/static/images/download.svg" alt="" className="download-image" />
                             </div>
                         </div>
                     </div>

@@ -8,7 +8,7 @@ import get from 'lodash/get'
 import Layout from '../components/Layout';
 import { defaultLocale, locales } from '../locales'
 import { initializeApollo, addApolloState } from '../lib/apolloClient'
-import Block, { GET_BLOCK } from '../components/Block';
+import Token, { GET_TOKEN } from '../components/Token';
 import pickParams from '../utils/pickParams';
 import { defaultRouteParams } from '../constants';
 
@@ -46,7 +46,7 @@ export default function BlockPage(props) {
       </Head>
 
       <Layout {...props} currentLocale={currentLocale} currentRoute={currentRoute}>
-        <Block router={router} currentLocale={currentLocale} currentRoute={currentRoute} />
+        <Token router={router} currentLocale={currentLocale} currentRoute={currentRoute} />
       </Layout>
     </>
   )
@@ -68,7 +68,7 @@ export const getServerSideProps = async (ctx) => {
   const apolloClient = initializeApollo()
 
   await apolloClient.query({
-    query: GET_BLOCK,
+    query: GET_TOKEN,
     variables: {
       filter: pickParams({
         blockID: get(router, 'params.id') ||  ctx.query.id,

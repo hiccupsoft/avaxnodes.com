@@ -21,7 +21,7 @@ export const GET_TOKEN = gql`
   }
 `;
 
-export const Block = ({ currentLocale, router }) => {
+export const Token = ({ currentLocale, router }) => {
     const { formatMessage } = useIntl()
     const f = (id, values = {}) => formatMessage({ id }, values)
     const locale = currentLocale
@@ -76,46 +76,49 @@ export const Block = ({ currentLocale, router }) => {
                     <nav>
                         <div className="nav nav-tabs" id="nav-tab" role="tablist">
                             <a className="nav-item nav-link" id="nav-home-tab" data-toggle="tab" onClick={(e) => handleSetActiveTab(e, 'transactions')} role="tab" aria-controls="nav-home" aria-selected="true">Transactions</a>
-                            <a className="nav-item nav-link active" id="nav-profile-tab" data-toggle="tab" role="tab"
+                            <a className="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" onClick={(e) => handleSetActiveTab(e, 'blocks')} role="tab"
                                 aria-controls="nav-profile" aria-selected="false">Blocks</a>
-                            <a className="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" role="tab"
-                                aria-controls="nav-contact" aria-selected="false" onClick={(e) => handleSetActiveTab(e, 'tokens')}>Tokens</a>
+                            <a className="nav-item nav-link active" id="nav-contact-tab" data-toggle="tab" role="tab"
+                                aria-controls="nav-contact" aria-selected="false" >Tokens</a>
                         </div>
                     </nav>
                     <div className="tab-content" id="nav-tabContent">
-                        <div className="tab-pane fade show active" id="blocks" role="tabpanel" aria-labelledby="nav-profile-tab">
+                        <div className="tab-pane fade show active" id="tokens" role="tabpanel" aria-labelledby="nav-contact-tab">
                             <div className="block-details-wrapper">
-                                <h2 id="block-detail">Block details</h2>
+                                <h2 id="block-detail">Token details</h2>
                                 <div className="block_wrapper">
-                                    <h4 className="block-title">Block hash</h4>
+                                    <h4 className="block-title">Token ID</h4>
                                     <div className="copy-details-wrapper">
-                                        <span id="copycode" className="copy_wrapper">0xc76ebd55cec…47bfe4c2990c8ff8508
+                                        <span id="copycode" className="copy_wrapper">FvwEAhmxKfei…YAvebMqDNDGCgxN5Z
               </span> <img data-clipboard-action="copy" data-clipboard-target="#copycode" src="asset/images/pdficon.svg" className="pdf-image" />
                                     </div>
                                     <div className="block-wrapper-inner">
                                         <div className="block-left">
                                             <div className="block">
-                                                <h6>Height</h6>
-                                                <p className="white">563 </p>
+                                                <h6>Standard</h6>
+                                                <p className="white">Avalanche</p>
                                             </div>
                                             <div className="block">
-                                                <h6>Timestamp</h6>
-                                                <p className="white">Sun, 29 Nov 2020 15:17:20 GMT</p>
+                                                <h6>Name</h6>
+                                                <p className="white">avaXwap</p>
                                             </div>
                                             <div className="block">
-                                                <h6>Size</h6>
-                                                <p><span className="white">64</span> BYTE</p>
+                                                <h6>Symbol</h6>
+                                                <p className="white">AXP</p>
                                             </div>
                                         </div>
                                         <div className="block-right">
                                             <div className="block">
-                                                <h6>Gas used</h6>
-                                                <p><span className="white">12</span> Gas</p>
-                                                <span>0.29% of 50,710,977</span>
+                                                <h6>Total Supply</h6>
+                                                <p className="white">13.00 AXP</p>
                                             </div>
                                             <div className="block">
-                                                <h6>Total burned</h6>
-                                                <p className="white">0.000 068 425 AVAX</p>
+                                                <h6>Decimals</h6>
+                                                <p className="white">18</p>
+                                            </div>
+                                            <div className="block">
+                                                <h6>Holders</h6>
+                                                <p className="white">2</p>
                                             </div>
                                         </div>
                                     </div>
@@ -198,7 +201,24 @@ export const Block = ({ currentLocale, router }) => {
                                                         <td>ERC20 MINT</td>
                                                         <td>
                                                             <span id="copycode">0x61c6bf...f25299d0
-                        </span><img data-clipboard-action="copy" data-clipboard-target="#copycode" src="asset/images/pdficon.svg" className="pdf-image" />
+                                                            </span>
+                                                            <img data-clipboard-action="copy" data-clipboard-target="#copycode" src="asset/images/pdficon.svg" className="pdf-image" />
+                                                        </td>
+                                                        <td>
+                                                            <div className="innercode">From: <span id="codefrom1">P-avax18ylhx…rjg0</span> <img data-clipboard-action="copy" data-clipboard-target="#codefrom1" src="asset/images/pdficon.svg" className="pdf-image" />
+                                                            </div>
+                                                            <div className="innercode">To: <span id="codeto1">P-avax18ylhx…rjg0</span> <img data-clipboard-action="copy" data-clipboard-target="#codeto1" src="asset/images/pdficon.svg" className="pdf-image" />
+                                                            </div>
+                                                        </td>
+                                                        <td>0.00 AVAX</td>
+                                                        <td><i className="fas fa-circle" /></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>ERC20 MINT</td>
+                                                        <td>
+                                                            <span id="copycode">0x61c6bf...f25299d0
+                                                            </span>
+                                                            <img data-clipboard-action="copy" data-clipboard-target="#copycode" src="asset/images/pdficon.svg" className="pdf-image" />
                                                         </td>
                                                         <td>
                                                             <div className="innercode">From: <span id="codefrom1">P-avax18ylhx…rjg0</span> <img data-clipboard-action="copy" data-clipboard-target="#codefrom1" src="asset/images/pdficon.svg" className="pdf-image" />
@@ -231,24 +251,11 @@ export const Block = ({ currentLocale, router }) => {
                         </span><img data-clipboard-action="copy" data-clipboard-target="#copycode" src="asset/images/pdficon.svg" className="pdf-image" />
                                                         </td>
                                                         <td>
-                                                            <div className="innercode">From: <span id="codefrom1">P-avax18ylhx…rjg0</span> <img data-clipboard-action="copy" data-clipboard-target="#codefrom1" src="asset/images/pdficon.svg" className="pdf-image" />
+                                                            <div className="innercode">From:
+                                                            <span id="codefrom1">P-avax18ylhx…rjg0</span> <img data-clipboard-action="copy" data-clipboard-target="#codefrom1" src="asset/images/pdficon.svg" className="pdf-image" />
                                                             </div>
-                                                            <div className="innercode">To: <span id="codeto1">P-avax18ylhx…rjg0</span> <img data-clipboard-action="copy" data-clipboard-target="#codeto1" src="asset/images/pdficon.svg" className="pdf-image" />
-                                                            </div>
-                                                        </td>
-                                                        <td>0.00 AVAX</td>
-                                                        <td><i className="fas fa-circle" /></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>ERC20 MINT</td>
-                                                        <td>
-                                                            <span id="copycode">0x61c6bf...f25299d0
-                        </span><img data-clipboard-action="copy" data-clipboard-target="#copycode" src="asset/images/pdficon.svg" className="pdf-image" />
-                                                        </td>
-                                                        <td>
-                                                            <div className="innercode">From: <span id="codefrom1">P-avax18ylhx…rjg0</span> <img data-clipboard-action="copy" data-clipboard-target="#codefrom1" src="asset/images/pdficon.svg" className="pdf-image" />
-                                                            </div>
-                                                            <div className="innercode">To: <span id="codeto1">P-avax18ylhx…rjg0</span> <img data-clipboard-action="copy" data-clipboard-target="#codeto1" src="asset/images/pdficon.svg" className="pdf-image" />
+                                                            <div className="innercode">To:
+                                                             <span id="codeto1">P-avax18ylhx…rjg0</span> <img data-clipboard-action="copy" data-clipboard-target="#codeto1" src="asset/images/pdficon.svg" className="pdf-image" />
                                                             </div>
                                                         </td>
                                                         <td>0.00 AVAX</td>
@@ -258,7 +265,8 @@ export const Block = ({ currentLocale, router }) => {
                                                         <td>ERC20 MINT</td>
                                                         <td>
                                                             <span id="copycode">0x61c6bf...f25299d0
-                        </span><img data-clipboard-action="copy" data-clipboard-target="#copycode" src="asset/images/pdficon.svg" className="pdf-image" />
+                        </span>
+                                                            <img data-clipboard-action="copy" data-clipboard-target="#copycode" src="asset/images/pdficon.svg" className="pdf-image" />
                                                         </td>
                                                         <td>
                                                             <div className="innercode">From: <span id="codefrom1">P-avax18ylhx…rjg0</span> <img data-clipboard-action="copy" data-clipboard-target="#codefrom1" src="asset/images/pdficon.svg" className="pdf-image" />
@@ -267,7 +275,9 @@ export const Block = ({ currentLocale, router }) => {
                                                             </div>
                                                         </td>
                                                         <td>0.00 AVAX</td>
-                                                        <td><i className="fas fa-circle" /></td>
+                                                        <td>
+                                                            <i className="fas fa-circle" />
+                                                        </td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -275,11 +285,12 @@ export const Block = ({ currentLocale, router }) => {
                                     </div>
                                 </div>
                             </div>
-                        </div></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </>
     )
 }
 
-export default Block
+export default Token
