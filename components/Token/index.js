@@ -21,9 +21,139 @@ export const GET_TOKEN = gql`
   }
 `;
 
+
+
+export const GET_TRANSACTIONS = gql`
+  query GetTransactions ($filter: TransactionsFilter!){
+    transactions(filter: $filter) {
+      items {
+        transactionID,
+        from,
+        to,
+        age,
+        avax_amount,
+        status,
+        createdAt
+      }
+      pagination {
+        page
+        perPage
+        count
+      }
+    }
+  }
+`;
+
+
+const TransactionTableItem = ({ item, f, locale }) => {
+    const [transactionIdCopiedToClipboard, setTransactionIdCopiedToClipboard] = React.useState(false);
+    const [fromAddressCopiedToClipboard, setFromAddressCopiedToClipboard] = React.useState(false);
+    const [toAddressCopiedToClipboard, setToAddressCopiedToClipboard] = React.useState(false);
+    React.useEffect(() => {
+        if (transactionIdCopiedToClipboard) {
+            setTimeout(() => {
+                setTransactionIdCopiedToClipboard(false)
+            }, 1000)
+        }
+        if (fromAddressCopiedToClipboard) {
+            setTimeout(() => {
+                setFromAddressCopiedToClipboard(false)
+            }, 1000)
+        }
+        if (toAddressCopiedToClipboard) {
+            setTimeout(() => {
+                setToAddressCopiedToClipboard(false)
+            }, 1000)
+        }
+    }, [transactionIdCopiedToClipboard,
+        fromAddressCopiedToClipboard,
+        toAddressCopiedToClipboard
+    ])
+    return (
+        <tr onClick={() => {
+            if (!transactionIdCopiedToClipboard && !fromAddressCopiedToClipboard && !toAddressCopiedToClipboard) {
+                Router.pushRoute(
+                    'transaction',
+                    pickParams({
+                        id: item.transactionID,
+                    }),
+                    locale
+                )
+            }
+        }}>
+            <td>ERC20 MINT</td>
+            <td style={{ position: 'relative' }} onClick={e => {
+                if (Array.from(e.target.classList).includes('pdf-image')) {
+                    e.preventDefault()
+                    e.stopPropagation()
+                }
+            }}>
+                <span id="code2" className="spancode">{shortNodeId(item.transactionID)}</span>
+                <ReactClipboard
+                    text={item.transactionID}
+                    onSuccess={() => {
+                        setTransactionIdCopiedToClipboard(true)
+                    }}
+                >
+                    <img
+                        data-clipboard-action="copy" data-clipboard-target="#code2"
+                        src="/static/images/pdficon.svg" className="pdf-image" />
+                </ReactClipboard>
+                {transactionIdCopiedToClipboard && (
+                    <div className="copiedtext d-block">{f('common.copied.to.clipboard')}</div>
+                )}
+            </td>
+            <td style={{ position: 'relative' }} onClick={e => {
+                if (Array.from(e.target.classList).includes('pdf-image')) {
+                    e.preventDefault()
+                    e.stopPropagation()
+                }
+            }}>
+                <div className="innercode">From: <span id="codefrom1">{shortNodeId(item.from)}</span>
+                    <ReactClipboard
+                        text={item.from}
+                        onSuccess={() => {
+                            setFromAddressCopiedToClipboard(true)
+                        }}
+                    >
+                        <img
+                            data-clipboard-action="copy" data-clipboard-target="#codefrom1"
+                            src="/static/images/pdficon.svg" className="pdf-image" />
+                    </ReactClipboard>
+                    {fromAddressCopiedToClipboard && (
+                        <div className="copiedtext d-block">{f('common.copied.to.clipboard')}</div>
+                    )}
+                </div>
+
+                <div className="innercode">To: <span id="codeto1">{shortNodeId(item.to)}</span>
+                    <ReactClipboard
+                        text={item.to}
+                        onSuccess={() => {
+                            setToAddressCopiedToClipboard(true)
+                        }}
+                    >
+                        <img
+                            data-clipboard-action="copy" data-clipboard-target="#codeto1"
+                            src="/static/images/pdficon.svg" className="pdf-image" />
+                    </ReactClipboard>
+                    {toAddressCopiedToClipboard && (
+                        <div className="copiedtext d-block">{f('common.copied.to.clipboard')}</div>
+                    )}
+                </div>
+            </td>
+            <td>{item.avax_amount} AVAX</td>
+            <td><FaCircle fill={'#5DA574'} size={10} /></td>
+        </tr>
+    )
+}
+
 export const Token = ({ currentLocale, router }) => {
     const { formatMessage } = useIntl()
     const f = (id, values = {}) => formatMessage({ id }, values)
+    const [page, setPage] = React.useState(1);
+    const [perPage, setPerPage] = React.useState(3);
+    const [activeTab, setActiveTab] = React.useState('transactions')
+
     const locale = currentLocale
 
     const handleSetActiveTab = (event, item) => {
@@ -39,6 +169,14 @@ export const Token = ({ currentLocale, router }) => {
     const { loading, error, data } = useQuery(GET_TOKEN, {
         variables: {
             filter: filter
+        },
+    });
+    const { data: transactionData } = useQuery(GET_TRANSACTIONS, {
+        variables: {
+            filter: {
+                page,
+                perPage
+            }
         },
     });
     const [tokenIdCopiedToClipboard, setTokenIdCopiedToClipboard] = React.useState(false);
@@ -145,166 +283,47 @@ export const Token = ({ currentLocale, router }) => {
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="contact-table" id="tbl_container">
-                                        <div className="container">
-                                            <table id="datatable" className="display responsive nowrap" style={{ width: '100%' }}>
-                                                <thead>
-                                                    <tr>
-                                                        <th />
-                                                        <th>HASH</th>
-                                                        <th />
-                                                        <th> AMOUNT</th>
-                                                        <th />
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <td>ERC20 MINT</td>
-                                                        <td>
-                                                            <span id="copycode">0x61c6bf...f25299d0
-                        </span><img data-clipboard-action="copy" data-clipboard-target="#copycode" src="/static/images/pdficon.svg" className="pdf-image" />
-                                                        </td>
-                                                        <td>
-                                                            <div className="innercode">From: <span id="codefrom1">P-avax18ylhx…rjg0</span> <img data-clipboard-action="copy" data-clipboard-target="#codefrom1" src="/static/images/pdficon.svg" className="pdf-image" />
-                                                            </div>
-                                                            <div className="innercode">To: <span id="codeto1">P-avax18ylhx…rjg0</span> <img data-clipboard-action="copy" data-clipboard-target="#codeto1" src="/static/images/pdficon.svg" className="pdf-image" />
-                                                            </div>
-                                                        </td>
-                                                        <td>0.00 AVAX</td>
-                                                        <td><i className="fas fa-circle" /></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>ERC20 MINT</td>
-                                                        <td>
-                                                            <span id="copycode">0x61c6bf...f25299d0</span>
-                                                            <img data-clipboard-action="copy" data-clipboard-target="#copycode" src="/static/images/pdficon.svg" className="pdf-image" />
-                                                        </td>
-                                                        <td>
-                                                            <div className="innercode">From: <span id="codefrom1">P-avax18ylhx…rjg0</span>
-                                                                <img data-clipboard-action="copy" data-clipboard-target="#codefrom1" src="/static/images/pdficon.svg" className="pdf-image" />
-                                                            </div>
-                                                            <div className="innercode">To: <span id="codeto1">P-avax18ylhx…rjg0</span>
-                                                                <img data-clipboard-action="copy" data-clipboard-target="#codeto1" src="/static/images/pdficon.svg" className="pdf-image" />
-                                                            </div>
-                                                        </td>
-                                                        <td>0.00 AVAX</td>
-                                                        <td><i className="fas fa-circle" /></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>ERC20 MINT</td>
-                                                        <td>
-                                                            <span id="copycode">0x61c6bf...f25299d0
-                        </span><img data-clipboard-action="copy" data-clipboard-target="#copycode" src="/static/images/pdficon.svg" className="pdf-image" />
-                                                        </td>
-                                                        <td>
-                                                            <div className="innercode">From: <span id="codefrom1">P-avax18ylhx…rjg0</span> <img data-clipboard-action="copy" data-clipboard-target="#codefrom1" src="/static/images/pdficon.svg" className="pdf-image" />
-                                                            </div>
-                                                            <div className="innercode">To: <span id="codeto1">P-avax18ylhx…rjg0</span> <img data-clipboard-action="copy" data-clipboard-target="#codeto1" src="/static/images/pdficon.svg" className="pdf-image" />
-                                                            </div>
-                                                        </td>
-                                                        <td> 0.00 AVAX</td>
-                                                        <td><i className="fas fa-circle" /></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>ERC20 MINT</td>
-                                                        <td>
-                                                            <span id="copycode">0x61c6bf...f25299d0
-                        </span><img data-clipboard-action="copy" data-clipboard-target="#copycode" src="/static/images/pdficon.svg" className="pdf-image" />
-                                                        </td>
-                                                        <td>
-                                                            <div className="innercode">From: <span id="codefrom1">P-avax18ylhx…rjg0</span> <img data-clipboard-action="copy" data-clipboard-target="#codefrom1" src="/static/images/pdficon.svg" className="pdf-image" />
-                                                            </div>
-                                                            <div className="innercode">To: <span id="codeto1">P-avax18ylhx…rjg0</span> <img data-clipboard-action="copy" data-clipboard-target="#codeto1" src="/static/images/pdficon.svg" className="pdf-image" />
-                                                            </div>
-                                                        </td>
-                                                        <td>0.00 AVAX</td>
-                                                        <td><i className="fas fa-circle" /></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>ERC20 MINT</td>
-                                                        <td>
-                                                            <span id="copycode">0x61c6bf...f25299d0
-                                                            </span>
-                                                            <img data-clipboard-action="copy" data-clipboard-target="#copycode" src="/static/images/pdficon.svg" className="pdf-image" />
-                                                        </td>
-                                                        <td>
-                                                            <div className="innercode">From: <span id="codefrom1">P-avax18ylhx…rjg0</span> <img data-clipboard-action="copy" data-clipboard-target="#codefrom1" src="/static/images/pdficon.svg" className="pdf-image" />
-                                                            </div>
-                                                            <div className="innercode">To: <span id="codeto1">P-avax18ylhx…rjg0</span> <img data-clipboard-action="copy" data-clipboard-target="#codeto1" src="/static/images/pdficon.svg" className="pdf-image" />
-                                                            </div>
-                                                        </td>
-                                                        <td>0.00 AVAX</td>
-                                                        <td><i className="fas fa-circle" /></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>ERC20 MINT</td>
-                                                        <td>
-                                                            <span id="copycode">0x61c6bf...f25299d0
-                                                            </span>
-                                                            <img data-clipboard-action="copy" data-clipboard-target="#copycode" src="/static/images/pdficon.svg" className="pdf-image" />
-                                                        </td>
-                                                        <td>
-                                                            <div className="innercode">From: <span id="codefrom1">P-avax18ylhx…rjg0</span> <img data-clipboard-action="copy" data-clipboard-target="#codefrom1" src="/static/images/pdficon.svg" className="pdf-image" />
-                                                            </div>
-                                                            <div className="innercode">To: <span id="codeto1">P-avax18ylhx…rjg0</span> <img data-clipboard-action="copy" data-clipboard-target="#codeto1" src="/static/images/pdficon.svg" className="pdf-image" />
-                                                            </div>
-                                                        </td>
-                                                        <td>0.00 AVAX</td>
-                                                        <td><i className="fas fa-circle" /></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>ERC20 MINT</td>
-                                                        <td>
-                                                            <span id="copycode">0x61c6bf...f25299d0
-                        </span><img data-clipboard-action="copy" data-clipboard-target="#copycode" src="/static/images/pdficon.svg" className="pdf-image" />
-                                                        </td>
-                                                        <td>
-                                                            <div className="innercode">From: <span id="codefrom1">P-avax18ylhx…rjg0</span> <img data-clipboard-action="copy" data-clipboard-target="#codefrom1" src="/static/images/pdficon.svg" className="pdf-image" />
-                                                            </div>
-                                                            <div className="innercode">To: <span id="codeto1">P-avax18ylhx…rjg0</span> <img data-clipboard-action="copy" data-clipboard-target="#codeto1" src="/static/images/pdficon.svg" className="pdf-image" />
-                                                            </div>
-                                                        </td>
-                                                        <td>0.00 AVAX</td>
-                                                        <td><i className="fas fa-circle" /></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>ERC20 MINT</td>
-                                                        <td>
-                                                            <span id="copycode">0x61c6bf...f25299d0
-                        </span><img data-clipboard-action="copy" data-clipboard-target="#copycode" src="/static/images/pdficon.svg" className="pdf-image" />
-                                                        </td>
-                                                        <td>
-                                                            <div className="innercode">From:
-                                                            <span id="codefrom1">P-avax18ylhx…rjg0</span> <img data-clipboard-action="copy" data-clipboard-target="#codefrom1" src="/static/images/pdficon.svg" className="pdf-image" />
-                                                            </div>
-                                                            <div className="innercode">To:
-                                                             <span id="codeto1">P-avax18ylhx…rjg0</span> <img data-clipboard-action="copy" data-clipboard-target="#codeto1" src="/static/images/pdficon.svg" className="pdf-image" />
-                                                            </div>
-                                                        </td>
-                                                        <td>0.00 AVAX</td>
-                                                        <td><i className="fas fa-circle" /></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>ERC20 MINT</td>
-                                                        <td>
-                                                            <span id="copycode">0x61c6bf...f25299d0
-                        </span>
-                                                            <img data-clipboard-action="copy" data-clipboard-target="#copycode" src="/static/images/pdficon.svg" className="pdf-image" />
-                                                        </td>
-                                                        <td>
-                                                            <div className="innercode">From: <span id="codefrom1">P-avax18ylhx…rjg0</span> <img data-clipboard-action="copy" data-clipboard-target="#codefrom1" src="/static/images/pdficon.svg" className="pdf-image" />
-                                                            </div>
-                                                            <div className="innercode">To: <span id="codeto1">P-avax18ylhx…rjg0</span> <img data-clipboard-action="copy" data-clipboard-target="#codeto1" src="/static/images/pdficon.svg" className="pdf-image" />
-                                                            </div>
-                                                        </td>
-                                                        <td>0.00 AVAX</td>
-                                                        <td>
-                                                            <i className="fas fa-circle" />
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
+                                    <div id="datatable_wrapper" className="dataTables_wrapper dataTables_scroll">
+                                        <TableControls
+                                            locale={locale}
+                                            page={page}
+                                            setPage={setPage}
+                                            perPage={perPage}
+                                            setPerPage={setPerPage}
+                                            pagination={transactionData && transactionData.transactions && transactionData.transactions.pagination}
+                                        />
+                                        <table id="datatable" className="display responsive nowrap transactions dataTable" style={{ width: '100%' }}>
+                                            <thead>
+                                                <tr>
+                                                    <th></th>
+                                                    <th>HASH</th>
+                                                    <th> </th>
+                                                    <th>AMOUNT</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {transactionData && transactionData.transactions && transactionData.transactions.items && transactionData.transactions.items.map((item, index) => {
+                                                    return (
+                                                        <TransactionTableItem
+                                                            key={`${item.transactionID}-${index}`}
+                                                            item={item}
+                                                            index={index}
+                                                            locale={locale}
+                                                            f={f}
+                                                        />
+                                                    )
+                                                })}
+                                            </tbody>
+                                        </table>
+                                        <TableControls
+                                            locale={locale}
+                                            page={page}
+                                            setPage={setPage}
+                                            perPage={perPage}
+                                            setPerPage={setPerPage}
+                                            pagination={transactionData && transactionData.transactions && transactionData.transactions.pagination}
+                                        />
                                     </div>
                                 </div>
                             </div>
