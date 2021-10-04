@@ -2,7 +2,6 @@ import React from 'react'
 import { useIntl } from "react-intl"
 import ReactClipboard from 'react-clipboardjs-copy'
 import { gql, useQuery } from '@apollo/client';
-import TableControls from '../TableControls'
 import { Link, Router } from '../../routes'
 import Spinner from '../Spinner'
 import shortNodeId from '../../utils/shortNodeId';
@@ -38,7 +37,7 @@ export const Transaction = ({ currentLocale, router }) => {
     const filter = {
         transactionID: router.params.id,
     }
-    const { loading, error, data } = useQuery(GET_TRANSACTION, {
+    const { loading, data } = useQuery(GET_TRANSACTION, {
         variables: {
             filter: filter
         },
@@ -109,7 +108,7 @@ export const Transaction = ({ currentLocale, router }) => {
                                                 <span id="copycode">{shortNodeId(router.params.id)}</span>
                                                 <ReactClipboard
                                                     text={item.transactionID}
-                                                    onSuccess={(e) => {
+                                                    onSuccess={() => {
                                                         setTransactionIdCopiedToClipboard(true)
                                                     }}
                                                 >

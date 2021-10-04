@@ -2285,6 +2285,7 @@ table.dataTable.transactions tbody tr td:first-child {
     border-radius: 2px;
     padding: 6px;
     margin-left: 10px;
+    cursor: pointer;
   }
   .block-left, .block-right {
     max-width: 266px;
