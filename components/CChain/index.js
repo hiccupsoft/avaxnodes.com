@@ -267,16 +267,17 @@ export const CChain = ({ currentLocale, router }) => {
     const [activeTab, setActiveTab] = React.useState('transactions')
 
     const locale = currentLocale
-    // React.useEffect(() => {
-    // if (router.params.page === 'undefined') {
-    // if (!router.params.page || router.params.page === 'undefined') {
-    //   setPage(defaultRouteParams.common.page)
-    // }
-    // if (!router.params.perPage || router.params.perPage === 'undefined') {
-    //   setPerPage(defaultRouteParams.common.perPage)
-    // }
-    //   }, [router.params])
-
+    React.useEffect(() => {
+        const newTabe = getActiveTab();
+        if (newTabe !== activeTab) {
+            setActiveTab(newTabe)
+        }
+    }, [router.params])
+    const getActiveTab = () => {
+        const routerName = router.route.name;
+        const splittedRouter = routerName.split('/');
+        return splittedRouter[1];
+    }
     const { loading, error, data: transactionData } = useQuery(GET_TRANSACTIONS, {
         variables: {
             filter: {

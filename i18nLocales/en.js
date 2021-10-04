@@ -9,6 +9,9 @@ module.exports = {
   
   "page.block.title": "Block",
   "page.block.header": "Block details",
+  
+  "page.token.title": "Token",
+  "page.token.header": "Token details",
 
 
   "stats.total.nodes.title": "Total nodes",

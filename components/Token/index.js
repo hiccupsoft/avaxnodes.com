@@ -34,14 +34,14 @@ export const Token = ({ currentLocale, router }) => {
     }
 
     const filter = {
-        transactionID: router.params.id,
+        tokenID: router.params.id,
     }
     const { loading, error, data } = useQuery(GET_TOKEN, {
         variables: {
             filter: filter
         },
     });
-    const item = (data && data.transaction) || {};
+    const item = (data && data.token) || {};
     const daysLeft = item && item.age && moment(item.age * 1000).diff(moment(), 'days')
     const hoursLeft = item && item.age && moment(item.age * 1000).diff(moment(), 'hours')
     const minutesLeft = item && item.age && moment(item.age * 1000).diff(moment(), 'minutes')
@@ -62,8 +62,8 @@ export const Token = ({ currentLocale, router }) => {
                                 <Link href={`c-chain`} locale={locale} params={{}}>
                                     <a className="nodes">/ {f('header.pages.c-chain.title')}</a>
                                 </Link>
-                                <Link href={`c-chain/transactions`} locale={locale} params={{}}>
-                                    <a className="nodes">/ {f('page.transaction.title')}</a>
+                                <Link href={`c-chain/tokens`} locale={locale} params={{}}>
+                                    <a className="nodes">/ {f('page.token.title')}</a>
                                 </Link>
                             </div>
                         </div>
@@ -89,8 +89,8 @@ export const Token = ({ currentLocale, router }) => {
                                 <div className="block_wrapper">
                                     <h4 className="block-title">Token ID</h4>
                                     <div className="copy-details-wrapper">
-                                        <span id="copycode" className="copy_wrapper">FvwEAhmxKfei…YAvebMqDNDGCgxN5Z
-              </span> <img data-clipboard-action="copy" data-clipboard-target="#copycode" src="asset/images/pdficon.svg" className="pdf-image" />
+                                        <span id="copycode" className="copy_wrapper">{shortNodeId(item.tokenID)}</span>
+                                        <img data-clipboard-action="copy" data-clipboard-target="#copycode" src="/static/images/pdficon.svg" className="pdf-image" />
                                     </div>
                                     <div className="block-wrapper-inner">
                                         <div className="block-left">
@@ -100,7 +100,7 @@ export const Token = ({ currentLocale, router }) => {
                                             </div>
                                             <div className="block">
                                                 <h6>Name</h6>
-                                                <p className="white">avaXwap</p>
+                                                <p className="white">{item.name}</p>
                                             </div>
                                             <div className="block">
                                                 <h6>Symbol</h6>
@@ -110,7 +110,7 @@ export const Token = ({ currentLocale, router }) => {
                                         <div className="block-right">
                                             <div className="block">
                                                 <h6>Total Supply</h6>
-                                                <p className="white">13.00 AXP</p>
+                                                <p className="white">{item.supply_amount} {item.supply_unit}</p>
                                             </div>
                                             <div className="block">
                                                 <h6>Decimals</h6>
@@ -139,12 +139,12 @@ export const Token = ({ currentLocale, router }) => {
                                                         <td>ERC20 MINT</td>
                                                         <td>
                                                             <span id="copycode">0x61c6bf...f25299d0
-                        </span><img data-clipboard-action="copy" data-clipboard-target="#copycode" src="asset/images/pdficon.svg" className="pdf-image" />
+                        </span><img data-clipboard-action="copy" data-clipboard-target="#copycode" src="/static/images/pdficon.svg" className="pdf-image" />
                                                         </td>
                                                         <td>
-                                                            <div className="innercode">From: <span id="codefrom1">P-avax18ylhx…rjg0</span> <img data-clipboard-action="copy" data-clipboard-target="#codefrom1" src="asset/images/pdficon.svg" className="pdf-image" />
+                                                            <div className="innercode">From: <span id="codefrom1">P-avax18ylhx…rjg0</span> <img data-clipboard-action="copy" data-clipboard-target="#codefrom1" src="/static/images/pdficon.svg" className="pdf-image" />
                                                             </div>
-                                                            <div className="innercode">To: <span id="codeto1">P-avax18ylhx…rjg0</span> <img data-clipboard-action="copy" data-clipboard-target="#codeto1" src="asset/images/pdficon.svg" className="pdf-image" />
+                                                            <div className="innercode">To: <span id="codeto1">P-avax18ylhx…rjg0</span> <img data-clipboard-action="copy" data-clipboard-target="#codeto1" src="/static/images/pdficon.svg" className="pdf-image" />
                                                             </div>
                                                         </td>
                                                         <td>0.00 AVAX</td>
@@ -154,14 +154,14 @@ export const Token = ({ currentLocale, router }) => {
                                                         <td>ERC20 MINT</td>
                                                         <td>
                                                             <span id="copycode">0x61c6bf...f25299d0</span>
-                                                            <img data-clipboard-action="copy" data-clipboard-target="#copycode" src="asset/images/pdficon.svg" className="pdf-image" />
+                                                            <img data-clipboard-action="copy" data-clipboard-target="#copycode" src="/static/images/pdficon.svg" className="pdf-image" />
                                                         </td>
                                                         <td>
                                                             <div className="innercode">From: <span id="codefrom1">P-avax18ylhx…rjg0</span>
-                                                                <img data-clipboard-action="copy" data-clipboard-target="#codefrom1" src="asset/images/pdficon.svg" className="pdf-image" />
+                                                                <img data-clipboard-action="copy" data-clipboard-target="#codefrom1" src="/static/images/pdficon.svg" className="pdf-image" />
                                                             </div>
                                                             <div className="innercode">To: <span id="codeto1">P-avax18ylhx…rjg0</span>
-                                                                <img data-clipboard-action="copy" data-clipboard-target="#codeto1" src="asset/images/pdficon.svg" className="pdf-image" />
+                                                                <img data-clipboard-action="copy" data-clipboard-target="#codeto1" src="/static/images/pdficon.svg" className="pdf-image" />
                                                             </div>
                                                         </td>
                                                         <td>0.00 AVAX</td>
@@ -171,12 +171,12 @@ export const Token = ({ currentLocale, router }) => {
                                                         <td>ERC20 MINT</td>
                                                         <td>
                                                             <span id="copycode">0x61c6bf...f25299d0
-                        </span><img data-clipboard-action="copy" data-clipboard-target="#copycode" src="asset/images/pdficon.svg" className="pdf-image" />
+                        </span><img data-clipboard-action="copy" data-clipboard-target="#copycode" src="/static/images/pdficon.svg" className="pdf-image" />
                                                         </td>
                                                         <td>
-                                                            <div className="innercode">From: <span id="codefrom1">P-avax18ylhx…rjg0</span> <img data-clipboard-action="copy" data-clipboard-target="#codefrom1" src="asset/images/pdficon.svg" className="pdf-image" />
+                                                            <div className="innercode">From: <span id="codefrom1">P-avax18ylhx…rjg0</span> <img data-clipboard-action="copy" data-clipboard-target="#codefrom1" src="/static/images/pdficon.svg" className="pdf-image" />
                                                             </div>
-                                                            <div className="innercode">To: <span id="codeto1">P-avax18ylhx…rjg0</span> <img data-clipboard-action="copy" data-clipboard-target="#codeto1" src="asset/images/pdficon.svg" className="pdf-image" />
+                                                            <div className="innercode">To: <span id="codeto1">P-avax18ylhx…rjg0</span> <img data-clipboard-action="copy" data-clipboard-target="#codeto1" src="/static/images/pdficon.svg" className="pdf-image" />
                                                             </div>
                                                         </td>
                                                         <td> 0.00 AVAX</td>
@@ -186,28 +186,12 @@ export const Token = ({ currentLocale, router }) => {
                                                         <td>ERC20 MINT</td>
                                                         <td>
                                                             <span id="copycode">0x61c6bf...f25299d0
-                        </span><img data-clipboard-action="copy" data-clipboard-target="#copycode" src="asset/images/pdficon.svg" className="pdf-image" />
+                        </span><img data-clipboard-action="copy" data-clipboard-target="#copycode" src="/static/images/pdficon.svg" className="pdf-image" />
                                                         </td>
                                                         <td>
-                                                            <div className="innercode">From: <span id="codefrom1">P-avax18ylhx…rjg0</span> <img data-clipboard-action="copy" data-clipboard-target="#codefrom1" src="asset/images/pdficon.svg" className="pdf-image" />
+                                                            <div className="innercode">From: <span id="codefrom1">P-avax18ylhx…rjg0</span> <img data-clipboard-action="copy" data-clipboard-target="#codefrom1" src="/static/images/pdficon.svg" className="pdf-image" />
                                                             </div>
-                                                            <div className="innercode">To: <span id="codeto1">P-avax18ylhx…rjg0</span> <img data-clipboard-action="copy" data-clipboard-target="#codeto1" src="asset/images/pdficon.svg" className="pdf-image" />
-                                                            </div>
-                                                        </td>
-                                                        <td>0.00 AVAX</td>
-                                                        <td><i className="fas fa-circle" /></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>ERC20 MINT</td>
-                                                        <td>
-                                                            <span id="copycode">0x61c6bf...f25299d0
-                                                            </span>
-                                                            <img data-clipboard-action="copy" data-clipboard-target="#copycode" src="asset/images/pdficon.svg" className="pdf-image" />
-                                                        </td>
-                                                        <td>
-                                                            <div className="innercode">From: <span id="codefrom1">P-avax18ylhx…rjg0</span> <img data-clipboard-action="copy" data-clipboard-target="#codefrom1" src="asset/images/pdficon.svg" className="pdf-image" />
-                                                            </div>
-                                                            <div className="innercode">To: <span id="codeto1">P-avax18ylhx…rjg0</span> <img data-clipboard-action="copy" data-clipboard-target="#codeto1" src="asset/images/pdficon.svg" className="pdf-image" />
+                                                            <div className="innercode">To: <span id="codeto1">P-avax18ylhx…rjg0</span> <img data-clipboard-action="copy" data-clipboard-target="#codeto1" src="/static/images/pdficon.svg" className="pdf-image" />
                                                             </div>
                                                         </td>
                                                         <td>0.00 AVAX</td>
@@ -218,27 +202,12 @@ export const Token = ({ currentLocale, router }) => {
                                                         <td>
                                                             <span id="copycode">0x61c6bf...f25299d0
                                                             </span>
-                                                            <img data-clipboard-action="copy" data-clipboard-target="#copycode" src="asset/images/pdficon.svg" className="pdf-image" />
+                                                            <img data-clipboard-action="copy" data-clipboard-target="#copycode" src="/static/images/pdficon.svg" className="pdf-image" />
                                                         </td>
                                                         <td>
-                                                            <div className="innercode">From: <span id="codefrom1">P-avax18ylhx…rjg0</span> <img data-clipboard-action="copy" data-clipboard-target="#codefrom1" src="asset/images/pdficon.svg" className="pdf-image" />
+                                                            <div className="innercode">From: <span id="codefrom1">P-avax18ylhx…rjg0</span> <img data-clipboard-action="copy" data-clipboard-target="#codefrom1" src="/static/images/pdficon.svg" className="pdf-image" />
                                                             </div>
-                                                            <div className="innercode">To: <span id="codeto1">P-avax18ylhx…rjg0</span> <img data-clipboard-action="copy" data-clipboard-target="#codeto1" src="asset/images/pdficon.svg" className="pdf-image" />
-                                                            </div>
-                                                        </td>
-                                                        <td>0.00 AVAX</td>
-                                                        <td><i className="fas fa-circle" /></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>ERC20 MINT</td>
-                                                        <td>
-                                                            <span id="copycode">0x61c6bf...f25299d0
-                        </span><img data-clipboard-action="copy" data-clipboard-target="#copycode" src="asset/images/pdficon.svg" className="pdf-image" />
-                                                        </td>
-                                                        <td>
-                                                            <div className="innercode">From: <span id="codefrom1">P-avax18ylhx…rjg0</span> <img data-clipboard-action="copy" data-clipboard-target="#codefrom1" src="asset/images/pdficon.svg" className="pdf-image" />
-                                                            </div>
-                                                            <div className="innercode">To: <span id="codeto1">P-avax18ylhx…rjg0</span> <img data-clipboard-action="copy" data-clipboard-target="#codeto1" src="asset/images/pdficon.svg" className="pdf-image" />
+                                                            <div className="innercode">To: <span id="codeto1">P-avax18ylhx…rjg0</span> <img data-clipboard-action="copy" data-clipboard-target="#codeto1" src="/static/images/pdficon.svg" className="pdf-image" />
                                                             </div>
                                                         </td>
                                                         <td>0.00 AVAX</td>
@@ -248,14 +217,45 @@ export const Token = ({ currentLocale, router }) => {
                                                         <td>ERC20 MINT</td>
                                                         <td>
                                                             <span id="copycode">0x61c6bf...f25299d0
-                        </span><img data-clipboard-action="copy" data-clipboard-target="#copycode" src="asset/images/pdficon.svg" className="pdf-image" />
+                                                            </span>
+                                                            <img data-clipboard-action="copy" data-clipboard-target="#copycode" src="/static/images/pdficon.svg" className="pdf-image" />
+                                                        </td>
+                                                        <td>
+                                                            <div className="innercode">From: <span id="codefrom1">P-avax18ylhx…rjg0</span> <img data-clipboard-action="copy" data-clipboard-target="#codefrom1" src="/static/images/pdficon.svg" className="pdf-image" />
+                                                            </div>
+                                                            <div className="innercode">To: <span id="codeto1">P-avax18ylhx…rjg0</span> <img data-clipboard-action="copy" data-clipboard-target="#codeto1" src="/static/images/pdficon.svg" className="pdf-image" />
+                                                            </div>
+                                                        </td>
+                                                        <td>0.00 AVAX</td>
+                                                        <td><i className="fas fa-circle" /></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>ERC20 MINT</td>
+                                                        <td>
+                                                            <span id="copycode">0x61c6bf...f25299d0
+                        </span><img data-clipboard-action="copy" data-clipboard-target="#copycode" src="/static/images/pdficon.svg" className="pdf-image" />
+                                                        </td>
+                                                        <td>
+                                                            <div className="innercode">From: <span id="codefrom1">P-avax18ylhx…rjg0</span> <img data-clipboard-action="copy" data-clipboard-target="#codefrom1" src="/static/images/pdficon.svg" className="pdf-image" />
+                                                            </div>
+                                                            <div className="innercode">To: <span id="codeto1">P-avax18ylhx…rjg0</span> <img data-clipboard-action="copy" data-clipboard-target="#codeto1" src="/static/images/pdficon.svg" className="pdf-image" />
+                                                            </div>
+                                                        </td>
+                                                        <td>0.00 AVAX</td>
+                                                        <td><i className="fas fa-circle" /></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>ERC20 MINT</td>
+                                                        <td>
+                                                            <span id="copycode">0x61c6bf...f25299d0
+                        </span><img data-clipboard-action="copy" data-clipboard-target="#copycode" src="/static/images/pdficon.svg" className="pdf-image" />
                                                         </td>
                                                         <td>
                                                             <div className="innercode">From:
-                                                            <span id="codefrom1">P-avax18ylhx…rjg0</span> <img data-clipboard-action="copy" data-clipboard-target="#codefrom1" src="asset/images/pdficon.svg" className="pdf-image" />
+                                                            <span id="codefrom1">P-avax18ylhx…rjg0</span> <img data-clipboard-action="copy" data-clipboard-target="#codefrom1" src="/static/images/pdficon.svg" className="pdf-image" />
                                                             </div>
                                                             <div className="innercode">To:
-                                                             <span id="codeto1">P-avax18ylhx…rjg0</span> <img data-clipboard-action="copy" data-clipboard-target="#codeto1" src="asset/images/pdficon.svg" className="pdf-image" />
+                                                             <span id="codeto1">P-avax18ylhx…rjg0</span> <img data-clipboard-action="copy" data-clipboard-target="#codeto1" src="/static/images/pdficon.svg" className="pdf-image" />
                                                             </div>
                                                         </td>
                                                         <td>0.00 AVAX</td>
@@ -266,12 +266,12 @@ export const Token = ({ currentLocale, router }) => {
                                                         <td>
                                                             <span id="copycode">0x61c6bf...f25299d0
                         </span>
-                                                            <img data-clipboard-action="copy" data-clipboard-target="#copycode" src="asset/images/pdficon.svg" className="pdf-image" />
+                                                            <img data-clipboard-action="copy" data-clipboard-target="#copycode" src="/static/images/pdficon.svg" className="pdf-image" />
                                                         </td>
                                                         <td>
-                                                            <div className="innercode">From: <span id="codefrom1">P-avax18ylhx…rjg0</span> <img data-clipboard-action="copy" data-clipboard-target="#codefrom1" src="asset/images/pdficon.svg" className="pdf-image" />
+                                                            <div className="innercode">From: <span id="codefrom1">P-avax18ylhx…rjg0</span> <img data-clipboard-action="copy" data-clipboard-target="#codefrom1" src="/static/images/pdficon.svg" className="pdf-image" />
                                                             </div>
-                                                            <div className="innercode">To: <span id="codeto1">P-avax18ylhx…rjg0</span> <img data-clipboard-action="copy" data-clipboard-target="#codeto1" src="asset/images/pdficon.svg" className="pdf-image" />
+                                                            <div className="innercode">To: <span id="codeto1">P-avax18ylhx…rjg0</span> <img data-clipboard-action="copy" data-clipboard-target="#codeto1" src="/static/images/pdficon.svg" className="pdf-image" />
                                                             </div>
                                                         </td>
                                                         <td>0.00 AVAX</td>
