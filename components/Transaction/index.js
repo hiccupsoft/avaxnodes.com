@@ -43,6 +43,14 @@ export const Transaction = ({ currentLocale, router }) => {
             filter: filter
         },
     });
+    const [transactionIdCopiedToClipboard, setTransactionIdCopiedToClipboard] = React.useState(false);
+    React.useEffect(() => {
+        if (transactionIdCopiedToClipboard) {
+            setTimeout(() => {
+                setTransactionIdCopiedToClipboard(false)
+            }, 1000)
+        }
+    }, [transactionIdCopiedToClipboard])
     const item = (data && data.transaction) || {};
     const daysLeft = item && item.age && moment(item.age * 1000).diff(moment(), 'days')
     const hoursLeft = item && item.age && moment(item.age * 1000).diff(moment(), 'hours')
@@ -92,9 +100,24 @@ export const Transaction = ({ currentLocale, router }) => {
                                 <div className="container">
                                     <div className="row content-inner align-items-center">
                                         <div className="col-9 col-md-8 col-sm-8 removepadding-desktop">
-                                            <div className="Title">
+                                            <div className="Title" onClick={e => {
+                                                if (Array.from(e.target.classList).includes('pdf-image')) {
+                                                    e.preventDefault()
+                                                    e.stopPropagation()
+                                                }
+                                            }}>
                                                 <span id="copycode">{shortNodeId(router.params.id)}</span>
-                                                <img data-clipboard-action="copy" data-clipboard-target="#copycode" src="/static/images/pdficon.svg" className="pdf-image" />
+                                                <ReactClipboard
+                                                    text={item.transactionID}
+                                                    onSuccess={(e) => {
+                                                        setTransactionIdCopiedToClipboard(true)
+                                                    }}
+                                                >
+                                                    <img data-clipboard-action="copy" data-clipboard-target="#copycode" src="/static/images/pdficon.svg" className="pdf-image" />
+                                                </ReactClipboard>
+                                                {transactionIdCopiedToClipboard && (
+                                                    <div className="copiedtext d-block">{f('common.copied.to.clipboard')}</div>
+                                                )}
                                             </div>
                                         </div>
                                         <div className="col-3 col-md-4 col-sm-4 ">
@@ -177,30 +200,32 @@ export const Transaction = ({ currentLocale, router }) => {
                         </div>
                         <div className="internal_wrap">
                             <h1>Internal operations</h1>
-                            <div className = "datatable_wrapper dataTables_scroll">
-                            <table id="datatable" className="display responsive nowrap dataTable" style={{ width: '100%' }}>
-                                <thead>
-                                    <tr>
-                                        <th />
-                                        <th />
-                                        <th>Amount</th>
-                                        <th />
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>ERC20 MINT</td>
-                                        <td>
-                                            <div className="innercode">From: <span id="codefrom2">P-avax18ylhx…rjg0</span> <img data-clipboard-action="copy" data-clipboard-target="#codefrom2" src="/static/images/pdficon.svg" className="pdf-image" />
-                                            </div>
-                                            <div className="innercode">To: <span id="codeto2">P-avax18ylhx…rjg0</span> <img data-clipboard-action="copy" data-clipboard-target="#codeto2" src="/static/images/pdficon.svg" className="pdf-image" />
-                                            </div>
-                                        </td>
-                                        <td>0.00 AVAX</td>
-                                        <td><i className="fas fa-circle" /></td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <div className="datatable_wrapper dataTables_scroll dataTables_wrapper no-footer">
+                                <div className="dataTables_scrollBody">
+                                    <table id="datatable" className="display responsive nowrap dataTable" style={{ width: '100%' }}>
+                                        <thead>
+                                            <tr>
+                                                <th />
+                                                <th />
+                                                <th>Amount</th>
+                                                <th />
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>ERC20 MINT</td>
+                                                <td>
+                                                    <div className="innercode">From: <span id="codefrom2">P-avax18ylhx…rjg0</span> <img data-clipboard-action="copy" data-clipboard-target="#codefrom2" src="/static/images/pdficon.svg" className="pdf-image" />
+                                                    </div>
+                                                    <div className="innercode">To: <span id="codeto2">P-avax18ylhx…rjg0</span> <img data-clipboard-action="copy" data-clipboard-target="#codeto2" src="/static/images/pdficon.svg" className="pdf-image" />
+                                                    </div>
+                                                </td>
+                                                <td>0.00 AVAX</td>
+                                                <td><FaCircle fill={'#5DA574'} size={10} /></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                         <div className="execution-wrapper">

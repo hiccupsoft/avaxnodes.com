@@ -41,6 +41,14 @@ export const Token = ({ currentLocale, router }) => {
             filter: filter
         },
     });
+    const [tokenIdCopiedToClipboard, setTokenIdCopiedToClipboard] = React.useState(false);
+    React.useEffect(() => {
+        if (tokenIdCopiedToClipboard) {
+            setTimeout(() => {
+                setTokenIdCopiedToClipboard(false)
+            }, 1000)
+        }
+    }, [tokenIdCopiedToClipboard])
     const item = (data && data.token) || {};
     const daysLeft = item && item.age && moment(item.age * 1000).diff(moment(), 'days')
     const hoursLeft = item && item.age && moment(item.age * 1000).diff(moment(), 'hours')
@@ -88,9 +96,24 @@ export const Token = ({ currentLocale, router }) => {
                                 <h2 id="block-detail">Token details</h2>
                                 <div className="block_wrapper">
                                     <h4 className="block-title">Token ID</h4>
-                                    <div className="copy-details-wrapper">
+                                    <div className="copy-details-wrapper" style={{ position: 'relative' }} onClick={e => {
+                                        if (Array.from(e.target.classList).includes('pdf-image')) {
+                                            e.preventDefault()
+                                            e.stopPropagation()
+                                        }
+                                    }}>
                                         <span id="copycode" className="copy_wrapper">{shortNodeId(item.tokenID)}</span>
-                                        <img data-clipboard-action="copy" data-clipboard-target="#copycode" src="/static/images/pdficon.svg" className="pdf-image" />
+                                        <ReactClipboard
+                                            text={item.tokenID}
+                                            onSuccess={(e) => {
+                                                setTokenIdCopiedToClipboard(true)
+                                            }}
+                                        >
+                                            <img data-clipboard-action="copy" data-clipboard-target="#copycode" src="/static/images/pdficon.svg" className="pdf-image" />
+                                        </ReactClipboard>
+                                        {tokenIdCopiedToClipboard && (
+                                            <div className="copiedtext d-block">{f('common.copied.to.clipboard')}</div>
+                                        )}
                                     </div>
                                     <div className="block-wrapper-inner">
                                         <div className="block-left">

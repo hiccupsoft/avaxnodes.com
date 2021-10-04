@@ -8,6 +8,10 @@ import Spinner from '../Spinner'
 import shortNodeId from '../../utils/shortNodeId';
 import moment from 'moment'
 import { FaCircle } from "react-icons/fa";
+import numberWithCommas from '../../utils/numberWithCommas';
+import numberFormat from '../../utils/numberFormat';
+
+
 
 export const GET_BLOCK = gql`
   query GetBlock ($filter: BlockFilter!) {
@@ -17,6 +21,7 @@ export const GET_BLOCK = gql`
         age
         createdAt
         gasUsed
+        gasTotal
         transactions
         total_burned
         volume
@@ -45,6 +50,14 @@ export const Block = ({ currentLocale, router }) => {
             filter: filter
         },
     });
+    const [blockHashCopiedToClipboard, setBlockHashCopiedToClipboard] = React.useState(false);
+    React.useEffect(() => {
+        if (blockHashCopiedToClipboard) {
+            setTimeout(() => {
+                setBlockHashCopiedToClipboard(false)
+            }, 1000)
+        }
+    }, [blockHashCopiedToClipboard])
     const item = (data && data.block) || {};
     const daysLeft = item && item.age && moment(item.age * 1000).diff(moment(), 'days')
     const hoursLeft = item && item.age && moment(item.age * 1000).diff(moment(), 'hours')
@@ -92,9 +105,24 @@ export const Block = ({ currentLocale, router }) => {
                                 <h2 id="block-detail">Block details</h2>
                                 <div className="block_wrapper">
                                     <h4 className="block-title">Block hash</h4>
-                                    <div className="copy-details-wrapper">
+                                    <div className="copy-details-wrapper" style = {{position:'relative'}} onClick={e => {
+                                        if (Array.from(e.target.classList).includes('pdf-image')) {
+                                            e.preventDefault()
+                                            e.stopPropagation()
+                                        }
+                                    }}>
                                         <span id="copycode" className="copy_wrapper">{shortNodeId(item.blockID)}</span>
-                                        <img data-clipboard-action="copy" data-clipboard-target="#copycode" src="/static/images/pdficon.svg" className="pdf-image" />
+                                        <ReactClipboard
+                                            text={item.blockID}
+                                            onSuccess={(e) => {
+                                                setBlockHashCopiedToClipboard(true)
+                                            }}
+                                        >
+                                            <img data-clipboard-action="copy" data-clipboard-target="#copycode" src="/static/images/pdficon.svg" className="pdf-image" />
+                                        </ReactClipboard>
+                                        {blockHashCopiedToClipboard && (
+                                            <div className="copiedtext d-block">{f('common.copied.to.clipboard')}</div>
+                                        )}
                                     </div>
                                     <div className="block-wrapper-inner">
                                         <div className="block-left">
@@ -114,8 +142,8 @@ export const Block = ({ currentLocale, router }) => {
                                         <div className="block-right">
                                             <div className="block">
                                                 <h6>Gas used</h6>
-                                                <p><span className="white">12</span> Gas</p>
-                                                <span>0.29% of 50,710,977</span>
+                                                <p><span className="white">{numberWithCommas(item.gasUsed)}</span> Gas</p>
+                                                <span>{numberFormat(item.gasUsed*100/item.gasTotal)}% of {numberWithCommas(item.gasTotal)}</span>
                                             </div>
                                             <div className="block">
                                                 <h6>Total burned</h6>

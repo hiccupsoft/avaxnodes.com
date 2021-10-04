@@ -2454,6 +2454,10 @@ table.dataTable.transactions tbody tr td:first-child {
   align-items: center;
   padding: 14px 16px;
 }
+.dataTables_wrapper.no-footer .dataTables_scrollBody {
+  border-bottom: 0 !important;
+  margin-bottom: 35px;
+}
 .execution-wrapper .inner h5 {
   color: #FFFFFF;
   font-size: 20px;

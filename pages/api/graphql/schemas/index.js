@@ -81,11 +81,12 @@ export const typeDefs = gql`
     height: Float,
     age: Float,
     createdAt: Date,
-    gasUsed: String,
     transactions: Float,
     total_burned: Float,
     volume: Float,
-    size: Float
+    size: Float,
+    gasUsed:Float,
+    gasTotal:Float,
   }
   
   type Token {

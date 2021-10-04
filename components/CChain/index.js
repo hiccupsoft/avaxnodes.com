@@ -9,7 +9,8 @@ import shortNodeId from '../../utils/shortNodeId';
 import moment from 'moment'
 import { FaCircle } from "react-icons/fa";
 import pickParams from '../../utils/pickParams';
-
+import numberWithCommas from '../../utils/numberWithCommas';
+import numberFormat from '../../utils/numberFormat';
 
 export const GET_TRANSACTIONS = gql`
   query GetTransactions ($filter: TransactionsFilter!){
@@ -40,6 +41,7 @@ export const GET_BLOCKS = gql`
             age,
             createdAt,
             gasUsed,
+            gasTotal,
             transactions,
             total_burned,
             volume,
@@ -117,7 +119,7 @@ const TransactionTableItem = ({ item, f, locale }) => {
                     e.stopPropagation()
                 }
             }}>
-                <span id="code2" className="spancode">{shortNodeId(item.from)}</span>
+                <span id="code2" className="spancode">{shortNodeId(item.transactionID)}</span>
                 <ReactClipboard
                     text={item.transactionID}
                     onSuccess={(e) => {
@@ -140,7 +142,7 @@ const TransactionTableItem = ({ item, f, locale }) => {
             }}>
                 <div className="innercode">From: <span id="codefrom1">{shortNodeId(item.from)}</span>
                     <ReactClipboard
-                        text={item.transactionID}
+                        text={item.from}
                         onSuccess={(e) => {
                             setFromAddressCopiedToClipboard(true)
                         }}
@@ -156,7 +158,7 @@ const TransactionTableItem = ({ item, f, locale }) => {
 
                 <div className="innercode">To: <span id="codeto1">{shortNodeId(item.to)}</span>
                     <ReactClipboard
-                        text={item.transactionID}
+                        text={item.to}
                         onSuccess={(e) => {
                             setToAddressCopiedToClipboard(true)
                         }}
@@ -186,6 +188,7 @@ const BlockTableItem = ({ item, f, locale }) => {
     const daysLeft = moment(item.age * 1000).diff(moment(), 'days')
     const hoursLeft = moment(item.age * 1000).diff(moment(), 'hours')
     const minutesLeft = moment(item.age * 1000).diff(moment(), 'minutes')
+    
     return (
         <tr onClick={() => {
             Router.pushRoute(
@@ -201,7 +204,7 @@ const BlockTableItem = ({ item, f, locale }) => {
                 {!daysLeft && !!hoursLeft && (<span className="white">{hoursLeft} {f('common.age.hours')}</span>)}
                 {!daysLeft && !hoursLeft && !!minutesLeft && (<span className="white">{minutesLeft} {f('common.age.minutes')}</span>)}<span>&nbsp; Sun, 29 Nov 2020 15:17:20 GMT</span> </td>
             <td>1</td>
-            <td><span className="white">{item.gasUsed}</span></td>
+            <td><span className="white">{numberWithCommas(item.gasUsed)}:{numberFormat(item.gasUsed*100/item.gasTotal)}% of {numberWithCommas(item.gasTotal)}</span></td>
             {/* <td><span className="white">145,585:</span> 0.29% of 50,710,977</td> */}
             <td><span className="white">{item.total_burned}</span></td>
             <td>{item.volume} AVAX</td>
