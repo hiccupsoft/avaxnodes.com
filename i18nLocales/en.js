@@ -6,6 +6,9 @@ module.exports = {
 
   "page.transaction.title": "Transaction",
   "page.transaction.header": "Transaction details",
+  
+  "page.block.title": "Block",
+  "page.block.header": "Block details",
 
 
   "stats.total.nodes.title": "Total nodes",
