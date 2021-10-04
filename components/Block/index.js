@@ -77,17 +77,7 @@ const TransactionTableItem = ({ item, f, locale }) => {
         toAddressCopiedToClipboard
     ])
     return (
-        <tr onClick={() => {
-            if (!transactionIdCopiedToClipboard && !fromAddressCopiedToClipboard && !toAddressCopiedToClipboard) {
-                Router.pushRoute(
-                    'transaction',
-                    pickParams({
-                        id: item.transactionID,
-                    }),
-                    locale
-                )
-            }
-        }}>
+        <tr>
             <td className = "detail">ERC20 MINT</td>
             <td style={{ position: 'relative' }} onClick={e => {
                 if (Array.from(e.target.classList).includes('pdf-image')) {
