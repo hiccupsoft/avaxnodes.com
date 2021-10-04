@@ -104,7 +104,7 @@ const TransactionTableItem = ({ item, f, locale }) => {
         <tr onClick={() => {
             if (!transactionIdCopiedToClipboard && !fromAddressCopiedToClipboard && !toAddressCopiedToClipboard) {
                 Router.pushRoute(
-                    'transaction',
+                    'c-chain/transaction',
                     pickParams({
                         id: item.transactionID,
                     }),
@@ -192,7 +192,7 @@ const BlockTableItem = ({ item, f, locale }) => {
     return (
         <tr onClick={() => {
             Router.pushRoute(
-                'block',
+                'c-chain/block',
                 pickParams({
                     id: item.blockID,
                 }),
@@ -227,7 +227,7 @@ const TokenTableItem = ({ item, f, locale }) => {
         <tr onClick={() => {
             if (!contactAddressCopiedToClipboard) {
                 Router.pushRoute(
-                    'token',
+                    'c-chain/token',
                     pickParams({
                         id: item.tokenID,
                     }),
