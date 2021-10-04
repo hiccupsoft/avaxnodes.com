@@ -88,7 +88,7 @@ const TransactionTableItem = ({ item, f, locale }) => {
                 )
             }
         }}>
-            <td>ERC20 MINT</td>
+            <td className = "detail">ERC20 MINT</td>
             <td style={{ position: 'relative' }} onClick={e => {
                 if (Array.from(e.target.classList).includes('pdf-image')) {
                     e.preventDefault()

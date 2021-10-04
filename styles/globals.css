@@ -57,7 +57,7 @@
 .mode-light .dataTables_scroll table.dataTable tbody td img.pdf-image {
   width: 20px;
   height: 20px;
-  background-color: #2B2929;
+  background-color:rgba(0,0,0,.06) !important;
   border-radius: 2px;
   padding: 3px 4px;
   margin-left: 5px;
@@ -422,7 +422,9 @@ table.dataTable tbody td div {
   line-height: 31px;
   text-align: left;
 }
-
+table.dataTable.transactions tbody tr td.detail:first-child {
+  color: #FFF !important;
+}
 .mode-light .transaction-block-wrapper h5 {
   color: #20202A;
   font-size: 18px;
