@@ -53,7 +53,12 @@
     font-size: 16px !important;
   }
 }
-
+.mode-light .copy-details-wrapper .pdf-image {
+  background-color: rgba(0, 0, 0, 0.06);
+  border-radius: 2px;
+  padding: 6px;
+  margin-left: 10px;
+}
 .mode-light .dataTables_scroll table.dataTable tbody td img.pdf-image {
   width: 20px;
   height: 20px;
