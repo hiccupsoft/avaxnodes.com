@@ -78,7 +78,7 @@ export const Token = ({ currentLocale, router }) => {
                             <a className="nav-item nav-link" id="nav-home-tab" data-toggle="tab" onClick={(e) => handleSetActiveTab(e, 'transactions')} role="tab" aria-controls="nav-home" aria-selected="true">Transactions</a>
                             <a className="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" onClick={(e) => handleSetActiveTab(e, 'blocks')} role="tab"
                                 aria-controls="nav-profile" aria-selected="false">Blocks</a>
-                            <a className="nav-item nav-link active" id="nav-contact-tab" data-toggle="tab" role="tab"
+                            <a className="nav-item nav-link active" id="nav-contact-tab" data-toggle="tab" onClick={(e) => handleSetActiveTab(e, 'tokens')} role="tab"
                                 aria-controls="nav-contact" aria-selected="false" >Tokens</a>
                         </div>
                     </nav>

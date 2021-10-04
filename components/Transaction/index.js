@@ -77,7 +77,7 @@ export const Transaction = ({ currentLocale, router }) => {
                 <div className="container">
                     <nav>
                         <div className="nav nav-tabs" id="nav-tab" role="tablist">
-                            <a className="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" role="tab" aria-controls="nav-home" aria-selected="true">Transactions</a>
+                            <a className="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" onClick={(e) => handleSetActiveTab(e, 'transactions')} role="tab" aria-controls="nav-home" aria-selected="true">Transactions</a>
                             <a className="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" onClick={(e) => handleSetActiveTab(e, 'blocks')} role="tab"
                                 aria-controls="nav-profile" aria-selected="false">Blocks</a>
                             <a className="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" role="tab"

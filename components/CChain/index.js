@@ -270,7 +270,11 @@ export const CChain = ({ currentLocale, router }) => {
     React.useEffect(() => {
         const newTabe = getActiveTab();
         if (newTabe !== activeTab) {
-            setActiveTab(newTabe)
+            if(newTabe === ""){
+                setActiveTab("transactions")
+            }else{
+                setActiveTab(newTabe)
+            }
         }
     }, [router.params])
     const getActiveTab = () => {
